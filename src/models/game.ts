@@ -1,8 +1,10 @@
+export type IStatus = 'playing' | 'completed' | 'want' | 'dropped'
+
 export type IGame = {
     id: string,
     title: string,
     platform: string,
-    status: 'playing' | 'completed' | 'want' | 'dropped',
+    status: IStatus,
     rating: number,
     coverUrl: string,
     notes: string
