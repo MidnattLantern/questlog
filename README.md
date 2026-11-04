@@ -34,6 +34,13 @@ function MyComponent() {
 
 NOTE: If you intend to style vectors with stylesheets, you won't be able to use modular stylesheets.
 
+### React router
+Enable react to behave like a multi-page application, meaning different content will be displayed depending on the url query.
+
+Questlog use the "Data mode", meaning each route is declared at a centralized section, namely the App.tsx file.
+
+The scope of Questlog is small, but if you ever need to nest what content should be displayed under whatever route as parent, include the `<Outlet/>` component.
+
 ## Helpful notes
 ### Emulate throttling (Firefox)
 When developing a service that makes API calls, you'll want to see how the page behaves during the network requests. In the year 2026 of Scandinavia, internet is good – too good. To slow down the network requests, browsers let you emulate slower connections. In Firefox, hit F12, go to the Networks tab, click the dropdown bar next to the cogwheel, by default it says "No Throttling", then select any options that's slow enough. [Throttling — Firefox Source Docs documentation - Mozilla](https://firefox-source-docs.mozilla.org/devtools-user/network_monitor/throttling/index.html)
