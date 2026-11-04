@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import type { IGame } from "../../models/game"
 import { baseUrl } from "../../config"
+import GameCard from "../../components/gameCard/GameCard"
 
 function GameCollection() {
 	const [games, setGames] = useState<IGame[]>([])
@@ -67,36 +68,23 @@ function GameCollection() {
 					<option key={option} value={option}>{option}</option>
 				))}
 			</select>
-			<ul>
-			{(!apiFetchStatus.isLoading && apiFetchStatus.fetchOk) ? (
-				<>
-					{games.map(game => (
-						<li key={game.id}>
-							<ul>
-								<li>{game.title}</li>
-								<li>{game.notes}</li>
-								<li>{game.rating}</li>
-								<li>{game.status}</li>
-								<li>{game.platform}</li>
-								<li><img src={game.coverUrl} width={300} alt={`Cover image for ${game.title}`}/></li>
-							</ul>
-						</li>
-					))}
-				</>
-			) : (
-				<>
-					{apiFetchStatus.fetchErrorMessage === '' ? (
-						<>
-							<p>Loading</p>
-						</>
-					) : (
-						<>
-							<p>{apiFetchStatus.fetchErrorMessage}</p>
-						</>
-					)}
-				</>
-			)}
-			</ul>
+			<div>
+				{(!apiFetchStatus.isLoading && apiFetchStatus.fetchOk) ? (
+					games.map(game => (<GameCard key={game.id} game={game}/>))
+				) : (
+					<>
+						{apiFetchStatus.fetchErrorMessage === '' ? (
+							<>
+								<p>Loading</p>
+							</>
+						) : (
+							<>
+								<p>{apiFetchStatus.fetchErrorMessage}</p>
+							</>
+						)}
+					</>
+				)}
+			</div>
 		</>
 	)
 }
