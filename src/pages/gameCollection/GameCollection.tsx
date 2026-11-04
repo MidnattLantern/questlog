@@ -4,67 +4,71 @@ import { baseUrl } from "../../config"
 
 function GameCollection() {
 	const [games, setGames] = useState<IGame[]>([])
-	const [loading, setLoading] = useState(true)
-	const [statusOptions, setGameStatusOptions] = useState<string[]>([])
+	const [apiFetchStatus, setApiFetchStatus] = useState({
+		isLoading: true,
+		fetchOk: false,
+		fetchErrorMessage: ''
+	})
+	const [gameStatusOptions, setGameStatusOptions] = useState<string[]>([])
 
 	async function handleFetchGames(statusFilter?: string | null) {
-		console.log('foo')
 		try {
 			let statusQuery: string = ''
 			if (statusFilter) statusQuery = `?status=${statusFilter}`
 			const response = await fetch(`${baseUrl}${statusQuery}`)
-			console.log('status', response.status)
 			const data = await response.json()
 			const status = response.status
 			return {data, status}
 		} catch (error) {
-			console.log(error)
+			console.error(error)
 			return
 		}
 	}
 
 	useEffect(() => {
 		function handleFetchStatusOptions(games: IGame[]) {
-			const statusOptions: string[] = []
+			const options: string[] = []
 			games.forEach(game => {
-				if (!statusOptions.includes(game.status)) statusOptions.push(game.status)
+				if (!options.includes(game.status)) options.push(game.status)
 			})
-			setGameStatusOptions(statusOptions)
+			setGameStatusOptions(options)
 		}
 
 		handleFetchGames()
 			.then((fetched) => {
-				if (fetched?.status === 200) setGames(fetched.data)
-				if (fetched?.status === 200) handleFetchStatusOptions(fetched.data)
+				if (fetched?.status === 200) {
+					setGames(fetched.data)
+					handleFetchStatusOptions(fetched.data)
+					setApiFetchStatus(prev => {return {...prev, fetchOk: true}})
+				} else {
+					console.error('Failed to fetch data. Error code:', fetched?.status)
+					setApiFetchStatus(prev => {return {...prev, fetchErrorMessage: `Failed to fetch data. Error code: ${fetched?.status}`}})
+				}
 			})
 			.finally(() => {
-				setLoading(false)
+				setApiFetchStatus(prev => {return {...prev, isLoading: false}})
 			})
 	}, [])
 
 	return (
 		<>
 			<select onChange={(e: React.ChangeEvent) => {
-				setLoading(true)
+				setApiFetchStatus(prev => {return {...prev, isLoading: true}})
 				handleFetchGames((e.target as HTMLSelectElement).value)
 				.then((fetched) => (
 					setGames(fetched?.data)
 				))
 				.finally(() => {
-					setLoading(false)
+					setApiFetchStatus(prev => {return {...prev, isLoading: false}})
 				})
 			}}>
 				<option value={''}>All</option>
-				{statusOptions.map(option => (
+				{gameStatusOptions.map(option => (
 					<option key={option} value={option}>{option}</option>
 				))}
 			</select>
 			<ul>
-			{loading ? (
-				<>
-					<p>Loading</p>
-				</>
-			) : (
+			{(!apiFetchStatus.isLoading && apiFetchStatus.fetchOk) ? (
 				<>
 					{games.map(game => (
 						<li key={game.id}>
@@ -78,6 +82,18 @@ function GameCollection() {
 							</ul>
 						</li>
 					))}
+				</>
+			) : (
+				<>
+					{apiFetchStatus.fetchErrorMessage === '' ? (
+						<>
+							<p>Loading</p>
+						</>
+					) : (
+						<>
+							<p>{apiFetchStatus.fetchErrorMessage}</p>
+						</>
+					)}
 				</>
 			)}
 			</ul>
