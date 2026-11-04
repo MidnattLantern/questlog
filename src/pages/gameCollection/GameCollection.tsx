@@ -3,8 +3,10 @@ import type { IGame } from "../../models/game"
 import { baseUrl } from "../../config"
 import GameCard from "../../components/gameCard/GameCard"
 import type { IApiFetchStatus } from "../../models/api-fetch-status"
+import NonOkResponse from "./components/NonOkResponse"
 
 function GameCollection() {
+	// States
 	const [games, setGames] = useState<IGame[]>([])
 	const [apiFetchStatus, setApiFetchStatus] = useState<IApiFetchStatus>({
 		isLoading: true,
@@ -13,6 +15,7 @@ function GameCollection() {
 	})
 	const [gameStatusOptions, setGameStatusOptions] = useState<string[]>([])
 
+	// Functions & handlers
 	async function handleFetchGames(statusFilter?: string | null) {
 		try {
 			let statusQuery: string = ''
@@ -27,6 +30,7 @@ function GameCollection() {
 		}
 	}
 
+	// Effects
 	useEffect(() => {
 		function handleFetchStatusOptions(games: IGame[]) {
 			const options: string[] = []
@@ -52,6 +56,7 @@ function GameCollection() {
 			})
 	}, [])
 
+	// Render
 	return (
 		<>
 			<select onChange={(e: React.ChangeEvent) => {
@@ -73,13 +78,7 @@ function GameCollection() {
 				{(!apiFetchStatus.isLoading && apiFetchStatus.fetchOk) ? (
 					games.map(game => (<GameCard key={game.id} game={game}/>))
 				) : (
-					<>
-						{apiFetchStatus.fetchErrorMessage ? (
-							<p>{apiFetchStatus.fetchErrorMessage}</p>
-						) : (
-							<p>Your game collection is loading…</p>
-						)}
-					</>
+					<NonOkResponse apiFetchStatus={apiFetchStatus}/>
 				)}
 			</div>
 		</>
