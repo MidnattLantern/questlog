@@ -2,13 +2,14 @@ import { useEffect, useState } from "react"
 import type { IGame } from "../../models/game"
 import { baseUrl } from "../../config"
 import GameCard from "../../components/gameCard/GameCard"
+import type { IApiFetchStatus } from "../../models/api-fetch-status"
 
 function GameCollection() {
 	const [games, setGames] = useState<IGame[]>([])
-	const [apiFetchStatus, setApiFetchStatus] = useState({
+	const [apiFetchStatus, setApiFetchStatus] = useState<IApiFetchStatus>({
 		isLoading: true,
 		fetchOk: false,
-		fetchErrorMessage: ''
+		fetchErrorMessage: null
 	})
 	const [gameStatusOptions, setGameStatusOptions] = useState<string[]>([])
 
@@ -73,14 +74,10 @@ function GameCollection() {
 					games.map(game => (<GameCard key={game.id} game={game}/>))
 				) : (
 					<>
-						{apiFetchStatus.fetchErrorMessage === '' ? (
-							<>
-								<p>Loading</p>
-							</>
+						{apiFetchStatus.fetchErrorMessage ? (
+							<p>{apiFetchStatus.fetchErrorMessage}</p>
 						) : (
-							<>
-								<p>{apiFetchStatus.fetchErrorMessage}</p>
-							</>
+							<p>Your game collection is loading…</p>
 						)}
 					</>
 				)}
