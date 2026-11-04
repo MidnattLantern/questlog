@@ -1,6 +1,17 @@
 # Questlog
 Developed by Alma Isaksson 2026
 
+## Table of contents
+- [About](#about)
+- [Packages](#packages)
+- [Helpful notes](#helpful-notes)
+- [Other notes](#other-notes)
+
+## About
+I love video games, so it may not come as a surprise that I struggle with the infamous backlog issue. Meanwhile, you should pride yourself with the progress you've acomplished by tracking games you've completed (especially soulslike). Questlog is not only a project as part of vocational training, it's also a personal backlog tracker, wishlist, and hall of boasting. In Questlog, you can document your games, your status status, edit or delete, and filter by status.
+
+This CRUD page is a proof of concept and does not authorize the user. Any visitor may alter any content, so the person the page represent is play pretend (Foby Tox). Terms and conditions: You may perform any CRUD operation, and you aggree that another user may alter your content any time.
+
 ## Packages
 ### SASS
 Making cascade stylesheets more convenient to work with, such as nested selected within declarations, or `// single line` comments that isn't `/* mutiline */`.
