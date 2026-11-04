@@ -8,6 +8,7 @@ import type { IGame } from './models/game'
 function App() {
 	const [games, setGames] = useState<IGame[]>([])
 	const [loading, setLoading] = useState(true)
+	const [requestStatus, setRequestStatus] = useState<string | null>(null)
 	const [status, setStatus] = useState<string | null>(null)
 	const [statusOptions, setStatusOptions] = useState<string[]>([])
 
@@ -19,8 +20,9 @@ function App() {
 			if (!response) throw new Error("Couldn't fetch games")
 			const data = await response.json()
 			return data
-		} catch {
-			throw new Error('Failed to fetch games')
+		} catch (error) {
+			console.error('Failed to fetch games', error)
+			return 'error'
 		}
 	}
 
@@ -35,8 +37,10 @@ function App() {
 
 		if (loading) handleFetchGames()
 			.then((fetched) => {
-				setGames(fetched)
-				handleFetchStatusOptions(fetched)
+				// Undefined means the call went ok, returned message means something went wrong
+				if (fetched.message === undefined) setGames(fetched)
+				if (fetched.message === undefined) handleFetchStatusOptions(fetched)
+				if (fetched.message) setRequestStatus('Something went wrong')
 			})
 			.finally(() => {
 				setLoading(false)
@@ -48,6 +52,7 @@ function App() {
 			<h1>Questlog</h1>
 			<ReactLogo/>
 			<ViteLogo/>
+			{requestStatus && <p>{requestStatus}</p>}
 			<p>status: {status}</p>
 			<select onChange={(e: React.ChangeEvent) => {
 				setStatus((e.target as HTMLSelectElement).value)
@@ -59,6 +64,7 @@ function App() {
 				))}
 			</select>
 			<ul>
+			{loading && <p>Loading</p>}
 				{games.map(game => (
 					<li key={game.id}>
 						<ul>
