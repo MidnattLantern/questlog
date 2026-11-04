@@ -44,7 +44,7 @@ The scope of Questlog is small, but if you ever need to nest what content should
 
 ## Codebase architecture
 ### Modular styling
-Any component that utulize styling should be modular and stored in the same directory. The scss file should have the same name as its corresponding TSX file.
+Any component that utilize styling should be modular and stored in the same directory. The scss file should have the same name as its corresponding TSX file.
 ```
 myComponent
 ├── MyComponent.tsx
@@ -131,9 +131,7 @@ The directories are still just called "component", living within a page director
 When developing a service that makes API calls, you'll want to see how the page behaves during the network requests. In the year 2026 of Scandinavia, internet is good – too good. To slow down the network requests, browsers let you emulate slower connections. In Firefox, hit F12, go to the Networks tab, click the dropdown bar next to the cogwheel, by default it says "No Throttling", then select any options that's slow enough. [Throttling — Firefox Source Docs documentation - Mozilla](https://firefox-source-docs.mozilla.org/devtools-user/network_monitor/throttling/index.html)
 
 ### Document directory tree structure
-[tree.nathanfriend.io](https://tree.nathanfriend.com/) is a helpful tool.
-
-Don't forget to wrap your tree in markdown with backticks!
+[tree.nathanfriend.io](https://tree.nathanfriend.com/) is a helpful tool. Don't forget to wrap your tree in markdown with backticks!
 
 ## Other notes
 ### Package compatibility
