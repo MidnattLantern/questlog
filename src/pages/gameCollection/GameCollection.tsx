@@ -5,21 +5,21 @@ import { baseUrl } from "../../config"
 function GameCollection() {
 	const [games, setGames] = useState<IGame[]>([])
 	const [loading, setLoading] = useState(true)
-	const [requestStatus, setRequestStatus] = useState<string | null>(null)
-	const [status, setStatus] = useState<string | null>(null)
-	const [statusOptions, setStatusOptions] = useState<string[]>([])
+	const [statusOptions, setGameStatusOptions] = useState<string[]>([])
 
-	async function handleFetchGames(status?: string | null) {
+	async function handleFetchGames(statusFilter?: string | null) {
+		console.log('foo')
 		try {
 			let statusQuery: string = ''
-			if (status) statusQuery = `?status=${status}`
+			if (statusFilter) statusQuery = `?status=${statusFilter}`
 			const response = await fetch(`${baseUrl}${statusQuery}`)
-			if (!response) throw new Error("Couldn't fetch games")
+			console.log('status', response.status)
 			const data = await response.json()
-			return data
+			const status = response.status
+			return {data, status}
 		} catch (error) {
-			console.error('Failed to fetch games', error)
-			return 'error'
+			console.log(error)
+			return
 		}
 	}
 
@@ -29,28 +29,30 @@ function GameCollection() {
 			games.forEach(game => {
 				if (!statusOptions.includes(game.status)) statusOptions.push(game.status)
 			})
-			setStatusOptions(statusOptions)
+			setGameStatusOptions(statusOptions)
 		}
 
-		if (loading) handleFetchGames()
+		handleFetchGames()
 			.then((fetched) => {
-				// Undefined means the call went ok, returned message means something went wrong
-				if (fetched.message === undefined) setGames(fetched)
-				if (fetched.message === undefined) handleFetchStatusOptions(fetched)
-				if (fetched.message) setRequestStatus('Something went wrong')
+				if (fetched?.status === 200) setGames(fetched.data)
+				if (fetched?.status === 200) handleFetchStatusOptions(fetched.data)
 			})
 			.finally(() => {
 				setLoading(false)
 			})
-	}, [loading, statusOptions])
+	}, [])
 
 	return (
 		<>
-			{requestStatus && <p>{requestStatus}</p>}
-			<p>status: {status}</p>
 			<select onChange={(e: React.ChangeEvent) => {
-				setStatus((e.target as HTMLSelectElement).value)
-				handleFetchGames((e.target as HTMLSelectElement).value).then(setGames)
+				setLoading(true)
+				handleFetchGames((e.target as HTMLSelectElement).value)
+				.then((fetched) => (
+					setGames(fetched?.data)
+				))
+				.finally(() => {
+					setLoading(false)
+				})
 			}}>
 				<option value={''}>All</option>
 				{statusOptions.map(option => (
@@ -58,19 +60,26 @@ function GameCollection() {
 				))}
 			</select>
 			<ul>
-			{loading && <p>Loading</p>}
-				{games.map(game => (
-					<li key={game.id}>
-						<ul>
-							<li>{game.title}</li>
-							<li>{game.notes}</li>
-							<li>{game.rating}</li>
-							<li>{game.status}</li>
-							<li>{game.platform}</li>
-							<li><img src={game.coverUrl} width={300} alt={`Cover image for ${game.title}`}/></li>
-						</ul>
-					</li>
-				))}
+			{loading ? (
+				<>
+					<p>Loading</p>
+				</>
+			) : (
+				<>
+					{games.map(game => (
+						<li key={game.id}>
+							<ul>
+								<li>{game.title}</li>
+								<li>{game.notes}</li>
+								<li>{game.rating}</li>
+								<li>{game.status}</li>
+								<li>{game.platform}</li>
+								<li><img src={game.coverUrl} width={300} alt={`Cover image for ${game.title}`}/></li>
+							</ul>
+						</li>
+					))}
+				</>
+			)}
 			</ul>
 		</>
 	)
