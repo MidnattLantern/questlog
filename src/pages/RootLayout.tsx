@@ -1,10 +1,11 @@
 import { Outlet } from "react-router"
+import NavBar from "../components/navBar/NavBar"
 
 function RootLayout() {
     return (
         <>
             <header>
-                <h1>Questlog</h1>
+                <NavBar/>
             </header>
             <main>
                 <Outlet/>
