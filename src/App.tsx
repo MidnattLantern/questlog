@@ -9,46 +9,54 @@ function App() {
 	const [games, setGames] = useState<IGame[]>([])
 	const [loading, setLoading] = useState(true)
 	const [status, setStatus] = useState<string | null>(null)
+	const [statusOptions, setStatusOptions] = useState<string[]>([])
 
 	async function handleFetchGames(status?: string | null) {
-		console.log('fetching games')
 		try {
 			let statusQuery: string = ''
 			if (status) statusQuery = `?status=${status}`
 			const response = await fetch(`${baseUrl}${statusQuery}`)
 			if (!response) throw new Error("Couldn't fetch games")
 			const data = await response.json()
-			// setGames(data)
-			console.log('data', data)
 			return data
 		} catch {
 			throw new Error('Failed to fetch games')
-		} finally {
-			console.log('games fetched')
 		}
 	}
 
 	useEffect(() => {
+		function handleFetchStatusOptions(games: IGame[]) {
+			const statusOptions: string[] = []
+			games.forEach(game => {
+				if (!statusOptions.includes(game.status)) statusOptions.push(game.status)
+			})
+			setStatusOptions(statusOptions)
+		}
+
 		if (loading) handleFetchGames()
-			.then(setGames)
-			.finally(() => {setLoading(false)})
-	}, [loading])
+			.then((fetched) => {
+				setGames(fetched)
+				handleFetchStatusOptions(fetched)
+			})
+			.finally(() => {
+				setLoading(false)
+			})
+	}, [loading, statusOptions])
 
 	return (
 		<>
 			<h1>Questlog</h1>
 			<ReactLogo/>
 			<ViteLogo/>
-			<p>{status}</p>
+			<p>status: {status}</p>
 			<select onChange={(e: React.ChangeEvent) => {
 				setStatus((e.target as HTMLSelectElement).value)
 				handleFetchGames((e.target as HTMLSelectElement).value).then(setGames)
 			}}>
 				<option value={''}>All</option>
-				<option value={'playing'}>Playing</option>
-				<option value={'completed'}>Completed</option>
-				<option value={'want'}>Want</option>
-				<option value={'dropped'}>Dropped</option>
+				{statusOptions.map(option => (
+					<option key={option} value={option}>{option}</option>
+				))}
 			</select>
 			<ul>
 				{games.map(game => (
