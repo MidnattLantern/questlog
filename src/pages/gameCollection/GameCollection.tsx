@@ -92,7 +92,7 @@ function GameCollection() {
 			</select>
 			<div>
 				{(!apiFetchStatus.isLoading && apiFetchStatus.fetchOk) ? (
-					games.map(game => (<GameCard key={game.id} game={game}/>))
+					games.map(game => (<GameCard key={game.id} game={game} preview={true}/>))
 				) : (
 					<NonOkResponse apiFetchStatus={apiFetchStatus}/>
 				)}
