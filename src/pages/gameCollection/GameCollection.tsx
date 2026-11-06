@@ -3,7 +3,7 @@ import type { IGame } from "../../models/game"
 import { baseUrl } from "../../config"
 import GameCard from "../../components/gameCard/GameCard"
 import type { IApiFetchStatus } from "../../models/api-fetch-status"
-import NonOkResponse from "./components/NonOkResponse"
+import NonOkResponse from "../../components/nonOkResponse/NonOkResponse"
 
 function GameCollection() {
 	// ======
@@ -94,7 +94,7 @@ function GameCollection() {
 				{(!apiFetchStatus.isLoading && apiFetchStatus.fetchOk) ? (
 					games.map(game => (<GameCard key={game.id} game={game} preview={true}/>))
 				) : (
-					<NonOkResponse apiFetchStatus={apiFetchStatus}/>
+					<NonOkResponse apiFetchStatus={apiFetchStatus} loadingMessage="Your game collection is loading…"/>
 				)}
 			</div>
 		</>

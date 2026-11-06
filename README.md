@@ -5,6 +5,7 @@ Developed by Alma Isaksson 2026
 - [About](#about)
 - [Packages](#packages)
 - [Codebase architecture](#codebase-architecture)
+- [Technical debt](#technical-debt)
 - [Helpful notes](#helpful-notes)
 - [Other notes](#other-notes)
 
@@ -125,6 +126,12 @@ function MyComponent() {
 export default MyComponent
 ```
 The directories are still just called "component", living within a page directory is enough informaion that it's a subcomponent.
+
+## Technical debt
+Compromises that were made to hit the deadline, they're documented so that they could potentially be addressed in a future reiteration.
+
+### WET api-fetchers
+Across the pages, you'll notice an echo of fetchers, somthing along "handleFetchGame". Each may vary to satisfy the specific conditions, and may be within a useEffect or outside one. This could be centralized in a file which is able to handle varying conditions.
 
 ## Helpful notes
 ### Emulate throttling (Firefox)
