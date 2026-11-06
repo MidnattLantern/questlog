@@ -16,7 +16,7 @@ function GameCollection() {
 		fetchOk: false,
 		fetchErrorMessage: null
 	})
-	const [gameStatusOptions, setGameStatusOptions] = useState<string[]>([])
+	const [gameStatusOptions, setGameStatusOptions] = useState<string[]>([]) // Consider moving back to hard coded
 	// ======
 
 	// ====================
