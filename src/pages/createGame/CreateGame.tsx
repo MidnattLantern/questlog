@@ -2,6 +2,7 @@ import Styles from "./CreateGame.module.scss"
 import { useState } from "react"
 import BackToCollectionButton from "../../components/backToCollectionButton/BackToCollectionButton"
 import type { IDraft } from "../../models/draft"
+import { baseUrl } from "../../config"
 
 function CreateGame() {
     const [draft, setDraft] = useState<IDraft>({
@@ -12,17 +13,46 @@ function CreateGame() {
         coverUrl: '',
         notes: ''
     })
+    const [submitErrorMessage, setSubmitErrorMessage] = useState<string | null>(null)
+    const [disabledSubmitButton, setDisabledSubmitButton] = useState<boolean>(false)
 
+    // ====================
+    // Functions & handlers
+    // ====================
     function handleSetDraft(event: React.ChangeEvent) {
         const target = event.target as HTMLInputElement
         setDraft(prev => {return {...prev, [target.name]: target.value}})
     }
 
-    function handleSubmit(event: React.SubmitEvent) {
+    async function handleSubmit(event: React.SubmitEvent) {
+        setDisabledSubmitButton(true)
         event.preventDefault()
         console.log(event)
         console.log(draft)
+        try {
+            console.log('attempting submit')
+            const response = await fetch(`${baseUrl}`,{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(draft)
+            })
+            const data = await response.json()
+
+            if (!response.ok) {
+                console.log('response NOT ok', data)
+                setSubmitErrorMessage(data.message)
+                return
+            }
+
+            console.log('response ok', data)
+        } catch (error) {
+            console.error('submit error:', error)
+            return
+        } finally {
+            setDisabledSubmitButton(false)
+        }
     }
+    // ====================
 
     return (
         <>
@@ -89,7 +119,9 @@ function CreateGame() {
                     <textarea value={draft.notes} name="notes" rows={5} onChange={handleSetDraft}/>
                 </label>
 
-                <input type="submit" value={"Create & save"}/>
+                <input type="submit" value={disabledSubmitButton ? 'Creating…' : 'Save & create'} disabled={disabledSubmitButton}/>
+
+                {submitErrorMessage && <p>{submitErrorMessage}</p>}
             </form>
         </>
     )
