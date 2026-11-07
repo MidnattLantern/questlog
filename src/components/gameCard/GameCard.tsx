@@ -11,7 +11,7 @@ function GameCard({game, preview = false}: {game: IGame, preview?: boolean}) {
             <p>Platform: {game.platform}</p>
             <p>Your rating: {game.rating}</p>
             {game.coverUrl && <img src={game.coverUrl} width={300} alt={`Cover image for ${game.title}`}/>}
-            {preview ? <NavLink to={`detail/${game.id}`}>Details</NavLink> : undefined}
+            {preview ? <NavLink to={`/detail/${game.id}`}>Details</NavLink> : <NavLink to={`/edit/${game.id}`}>Edit</NavLink>}
         </article>
     )
 }

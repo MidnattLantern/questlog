@@ -1,4 +1,4 @@
-export type IStatus = 'playing' | 'completed' | 'want' | 'dropped'
+export type IStatus = 'playing' | 'completed' | 'want' | 'dropped' | null
 
 export type IGame = {
     id: string,
