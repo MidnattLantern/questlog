@@ -1,5 +1,5 @@
 import Styles from "./EditGame.module.scss"
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import BackToCollectionButton from "../../components/backToCollectionButton/BackToCollectionButton"
 import { useEffect, useState } from "react"
 import { baseUrl } from "../../config"
@@ -9,6 +9,7 @@ import type { IDraft } from "../../models/draft"
 
 function EditGame() {
     const { id } = useParams()
+    const navigate = useNavigate()
     const [editDraft, setEditDraft] = useState<IDraft>({
         title: '',
         platform: '',
@@ -23,6 +24,7 @@ function EditGame() {
         fetchOk: false,
         fetchErrorMessage: null
     })
+    const [confirmDeleteView, setConfirmDeleteView] = useState<boolean>(false)
 
     function handleSetApiFetchStatus(name: 'isLoading' | 'fetchOk' | 'fetchErrorMessage', value: boolean | string | null) {
         setApiFetchStatus(prev => {return {...prev, [name]: value}})
@@ -33,6 +35,29 @@ function EditGame() {
         // target.value is passed as string, some need to be converted to nuber
         if (target.name === 'rating')   setEditDraft(prev => {return {...prev, [target.name]: Number(target.value)}})
         else                            setEditDraft(prev => {return {...prev, [target.name]: target.value}})
+    }
+
+    async function handleDeleteGame() {
+        try {
+            const response = await fetch(`${baseUrl}/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            const data = await response.json()
+
+            if (!response.ok) {
+                console.error('Failed to delete game,', data)
+                return
+            }
+
+            console.log('Delete game OK', data)
+            navigate('/')
+        } catch (error) {
+            console.log(error)
+            return
+        }
     }
 
     useEffect(() => {
@@ -135,6 +160,17 @@ function EditGame() {
                     </>
                 )}
             </form>
+            {confirmDeleteView ? (
+                <>
+                    <p>Deleting "{editDraft.title}" cannot be undone, are you sure?</p>
+                    <button onClick={() => {setConfirmDeleteView(false)}}>No, cancel</button>
+                    <button onClick={handleDeleteGame}>Yes, delete "{editDraft.title}"</button>
+                </>
+            ) : (
+                <>
+                    <button onClick={() => {setConfirmDeleteView(true)}}>Delete</button>
+                </>
+            )}
         </>
     )
 }

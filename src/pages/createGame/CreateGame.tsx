@@ -3,8 +3,11 @@ import { useState } from "react"
 import BackToCollectionButton from "../../components/backToCollectionButton/BackToCollectionButton"
 import type { IDraft } from "../../models/draft"
 import { baseUrl } from "../../config"
+import { useNavigate } from "react-router"
 
 function CreateGame() {
+    const navigate = useNavigate()
+
     const [draft, setDraft] = useState<IDraft>({
         title: '',
         platform: '',
@@ -45,6 +48,8 @@ function CreateGame() {
             }
 
             console.log('response ok', data)
+            navigate(`/detail/${data.id}`)
+
         } catch (error) {
             console.error('submit error:', error)
             return
