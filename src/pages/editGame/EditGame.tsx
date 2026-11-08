@@ -1,7 +1,7 @@
 import Styles from "./EditGame.module.scss"
 import { useNavigate, useParams } from "react-router"
 import BackToCollectionButton from "../../components/backToCollectionButton/BackToCollectionButton"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { baseUrl } from "../../config"
 import type { IApiFetchStatus } from "../../models/api-fetch-status"
 import NonOkResponse from "../../components/nonOkResponse/NonOkResponse"
@@ -35,6 +35,29 @@ function EditGame() {
         // target.value is passed as string, some need to be converted to nuber
         if (target.name === 'rating')   setEditDraft(prev => {return {...prev, [target.name]: Number(target.value)}})
         else                            setEditDraft(prev => {return {...prev, [target.name]: target.value}})
+    }
+
+    async function handleSaveChanges(event: React.SubmitEvent) {
+        event.preventDefault()
+        try {
+            const response = await fetch(`${baseUrl}/${id}`, {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(editDraft)
+            })
+            const data = await response.json()
+
+            if (!response.ok) {
+                console.error('Failed to save changes,', data)
+                return
+            }
+
+            console.log('Saved changes OK,', data)
+            navigate(`/detail/${id}`)
+        } catch (error) {
+            console.error('Failed to save changes', error)
+            return
+        }
     }
 
     async function handleDeleteGame() {
@@ -91,9 +114,8 @@ function EditGame() {
         <>
             <h2>Edit</h2>
             <BackToCollectionButton/>
-            <form className={Styles.form}>
                 {(!apiFetchStatus.isLoading && apiFetchStatus.fetchOk) ? (
-                    <>
+                    <form className={Styles.form} onSubmit={handleSaveChanges}>
                         <label>
                             <span>Title</span>
                             <input type="text" name="title" value={editDraft.title} onChange={handleSetEditDraft}/>
@@ -153,13 +175,13 @@ function EditGame() {
                             <span>Notes</span>
                             <textarea value={editDraft.notes} name="notes" rows={5} onChange={handleSetEditDraft}/>
                         </label>
-                    </>
+                        <input type="submit" value={'Save changes'}/>
+                    </form>
                 ) : (
                     <>
                         <NonOkResponse apiFetchStatus={apiFetchStatus}/>
                     </>
                 )}
-            </form>
             {confirmDeleteView ? (
                 <>
                     <p>Deleting "{editDraft.title}" cannot be undone, are you sure?</p>
