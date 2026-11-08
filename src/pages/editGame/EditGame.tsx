@@ -24,6 +24,8 @@ function EditGame() {
         fetchOk: false,
         fetchErrorMessage: null
     })
+    const [submitErrorMessage, setSubmitErrorMessage] = useState<string | null>(null)
+    const [disabledSubmitButton, setDisabledSubmitButton] = useState<boolean>(false)
     const [confirmDeleteView, setConfirmDeleteView] = useState<boolean>(false)
 
     function handleSetApiFetchStatus(name: 'isLoading' | 'fetchOk' | 'fetchErrorMessage', value: boolean | string | null) {
@@ -38,6 +40,7 @@ function EditGame() {
     }
 
     async function handleSaveChanges(event: React.SubmitEvent) {
+        setDisabledSubmitButton(true)
         event.preventDefault()
         try {
             const response = await fetch(`${baseUrl}/${id}`, {
@@ -49,6 +52,7 @@ function EditGame() {
 
             if (!response.ok) {
                 console.error('Failed to save changes,', data)
+                setSubmitErrorMessage(data.message)
                 return
             }
 
@@ -57,10 +61,15 @@ function EditGame() {
         } catch (error) {
             console.error('Failed to save changes', error)
             return
+        } finally {
+            setDisabledSubmitButton(false)
         }
     }
 
     async function handleDeleteGame() {
+        setDisabledSubmitButton(true)
+        setConfirmDeleteView(false)
+        
         try {
             const response = await fetch(`${baseUrl}/${id}`, {
                 method: 'DELETE',
@@ -80,6 +89,8 @@ function EditGame() {
         } catch (error) {
             console.log(error)
             return
+        } finally {
+            setDisabledSubmitButton(false)
         }
     }
 
@@ -126,7 +137,7 @@ function EditGame() {
                             <label>
                                 <span>Presets</span>
                                 <select name="platform" defaultValue={editDraft.platform} onChange={handleSetEditDraft}>
-                                    <option value="" aria-label="No suggestion">{`None (enter manually)`}</option>
+                                    <option value="">{`None (enter manually)`}</option>
                                     <optgroup label="Steam">
                                         <option value={"Steam for Windows"}>Steam for Windows</option>
                                         <option value={"Steam for Mac"}>Steam for Mac</option>
@@ -172,6 +183,7 @@ function EditGame() {
                                 <span>Dropped</span>
                             </label>
                         </fieldset>
+
                         <fieldset>
                             <legend>Rating</legend>
                             <label>
@@ -195,16 +207,19 @@ function EditGame() {
                                 <span>5</span>
                             </label>
                         </fieldset>
+
                         <label>
                             <span>Cover image "URL" link</span>
                             <input type="text" name="coverUrl" value={editDraft.coverUrl} onChange={handleSetEditDraft}/>
                         </label>
                         {editDraft.coverUrl ? <img src={editDraft.coverUrl} alt="Image preview" width={300}/> : <p>Image Preview</p>}
+
                         <label>
                             <span>Notes</span>
                             <textarea value={editDraft.notes} name="notes" rows={5} onChange={handleSetEditDraft}/>
                         </label>
-                        <input type="submit" value={'Save changes'}/>
+
+                        <input type="submit" value={disabledSubmitButton ? 'Saving…' : 'Save changes'} disabled={disabledSubmitButton}/>
                     </form>
                 ) : (
                     <>
@@ -219,9 +234,10 @@ function EditGame() {
                 </>
             ) : (
                 <>
-                    <button onClick={() => {setConfirmDeleteView(true)}}>Delete</button>
+                    <button onClick={() => {setConfirmDeleteView(true)}} disabled={disabledSubmitButton}>{disabledSubmitButton ? 'Deleting…' : "Delete"}</button>
                 </>
             )}
+            {submitErrorMessage && <p>{submitErrorMessage}</p>}
         </>
     )
 }

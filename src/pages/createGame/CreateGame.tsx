@@ -74,7 +74,7 @@ function CreateGame() {
                     <label>
                         <span>Presets</span>
                         <select name="platform" onChange={handleSetDraft}>
-                            <option value="" aria-label="No suggestion">{`None (enter manually)`}</option>
+                            <option value="">{`None (enter manually)`}</option>
                             <optgroup label="Steam">
                                 <option value={"Steam for Windows"}>Steam for Windows</option>
                                 <option value={"Steam for Mac"}>Steam for Mac</option>
@@ -120,6 +120,7 @@ function CreateGame() {
                         <span>Dropped</span>
                     </label>
                 </fieldset>
+
                 <fieldset>
                     <legend>Rating</legend>
                     <label>
@@ -143,20 +144,21 @@ function CreateGame() {
                         <span>5</span>
                     </label>
                 </fieldset>
+
                 <label>
                     <span>Cover image "URL" link</span>
                     <input type="text" name="coverUrl" value={draft.coverUrl} onChange={handleSetDraft}/>
                 </label>
                 {draft.coverUrl ? <img src={draft.coverUrl} alt="Image preview" width={300}/> : <p>Image Preview</p>}
+
                 <label>
                     <span>Notes</span>
                     <textarea value={draft.notes} name="notes" rows={5} onChange={handleSetDraft}/>
                 </label>
 
                 <input type="submit" value={disabledSubmitButton ? 'Creating…' : 'Save & create'} disabled={disabledSubmitButton}/>
-
-                {submitErrorMessage && <p>{submitErrorMessage}</p>}
             </form>
+            {submitErrorMessage && <p>{submitErrorMessage}</p>}
         </>
     )
 }
