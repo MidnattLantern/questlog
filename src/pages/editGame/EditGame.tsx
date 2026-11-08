@@ -8,6 +8,9 @@ import NonOkResponse from "../../components/nonOkResponse/NonOkResponse"
 import type { IDraft } from "../../models/draft"
 
 function EditGame() {
+	// ======
+	// States
+	// ======
     const { id } = useParams()
     const navigate = useNavigate()
     const [editDraft, setEditDraft] = useState<IDraft>({
@@ -27,7 +30,11 @@ function EditGame() {
     const [submitErrorMessage, setSubmitErrorMessage] = useState<string | null>(null)
     const [disabledSubmitButton, setDisabledSubmitButton] = useState<boolean>(false)
     const [confirmDeleteView, setConfirmDeleteView] = useState<boolean>(false)
+    // ======
 
+    // ====================
+    // Functions & handlers
+    // ====================
     function handleSetApiFetchStatus(name: 'isLoading' | 'fetchOk' | 'fetchErrorMessage', value: boolean | string | null) {
         setApiFetchStatus(prev => {return {...prev, [name]: value}})
     }
@@ -93,7 +100,11 @@ function EditGame() {
             setDisabledSubmitButton(false)
         }
     }
+    // ====================
 
+	// =======
+	// Effects
+	// =======
     useEffect(() => {
         async function handleFetchGame() {
             try {
@@ -120,7 +131,11 @@ function EditGame() {
             handleSetApiFetchStatus('isLoading', false)
         })
     }, [id])
+	// =======
 
+    // ======
+	// Render
+	// ======
     return (
         <>
             <h2>Edit</h2>
@@ -240,6 +255,7 @@ function EditGame() {
             {submitErrorMessage && <p>{submitErrorMessage}</p>}
         </>
     )
+    // ======
 }
 
 export default EditGame

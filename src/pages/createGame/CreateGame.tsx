@@ -6,8 +6,10 @@ import { baseUrl } from "../../config"
 import { useNavigate } from "react-router"
 
 function CreateGame() {
+	// ======
+	// States
+	// ======
     const navigate = useNavigate()
-
     const [draft, setDraft] = useState<IDraft>({
         title: '',
         platform: '',
@@ -18,6 +20,7 @@ function CreateGame() {
     })
     const [submitErrorMessage, setSubmitErrorMessage] = useState<string | null>(null)
     const [disabledSubmitButton, setDisabledSubmitButton] = useState<boolean>(false)
+	// ======
 
     // ====================
     // Functions & handlers
@@ -59,6 +62,9 @@ function CreateGame() {
     }
     // ====================
 
+	// ======
+	// Render
+	// ======
     return (
         <>
             <h2>Create</h2>
@@ -161,6 +167,7 @@ function CreateGame() {
             {submitErrorMessage && <p>{submitErrorMessage}</p>}
         </>
     )
+	// ======
 }
 
 export default CreateGame

@@ -10,7 +10,7 @@ Developed by Alma Isaksson 2026
 - [Other notes](#other-notes)
 
 ## About
-I love video games, so it may not come as a surprise that I struggle with the infamous backlog issue. Meanwhile, you should pride yourself with the progress you've acomplished by tracking games you've completed (especially soulslike). Questlog is not only a project as part of vocational training, it's also a personal backlog tracker, wishlist, and hall of boasting. In Questlog, you can document your games, your status status, edit or delete, and filter by status.
+I love video games, so it may not come as a surprise that I struggle with the infamous backlog issue. Meanwhile, you should pride yourself with the progress you've acomplished by tracking games you've completed. Questlog is not only a project as part of vocational training, it's also a personal backlog tracker, wishlist, and hall of boasting. In Questlog, you can document your games, your status status, edit or delete, and filter by status.
 
 This CRUD page is a proof of concept and does not authorize the user. Any visitor may alter any content, so the person the page represent is play pretend (Foby Tox). Terms and conditions: You may perform any CRUD operation, and you aggree that another user may alter your content any time.
 
@@ -127,11 +127,17 @@ export default MyComponent
 ```
 The directories are still just called "component", living within a page directory is enough informaion that it's a subcomponent.
 
+### useEffect with custom hooks
+If you–like me–tried to first update a global state, then re-render content using the new value within the same function, you'll see the DOM is always one state update behind. React handle variable states and DOM rendering differently from vanilla JavaScript. This is one reason useEffect is useful: keeping hooks as the one and only source-of-truth while achieving expected DOM behaviour.
+
 ## Technical debt
 Compromises that were made to hit the deadline, they're documented so that they could potentially be addressed in a future reiteration.
 
 ### WET api-fetchers
 Across the pages, you'll notice an echo of fetchers, somthing along "handleFetchGame". Each may vary to satisfy the specific conditions, and may be within a useEffect or outside one. This could be centralized in a file which is able to handle varying conditions.
+
+### General design decision flaws
+I could during programming sense smelly code, but due to lacking experience, I was unable to fully identify and document these decisions. Such shortcommings will however be revealed as you gain experience as a developer and revisit old codebases.
 
 ## Helpful notes
 ### Emulate throttling (Firefox)
