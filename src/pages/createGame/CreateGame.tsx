@@ -68,10 +68,39 @@ function CreateGame() {
                     <span>Title</span>
                     <input type="text" name="title" value={draft.title} onChange={handleSetDraft}/>
                 </label>
-                <label>
-                    <span>Platform</span>
-                    <input type="text" name="platform" value={draft.platform} onChange={handleSetDraft}/>
-                </label>
+
+                <fieldset>
+                    <legend>Platform</legend>
+                    <label>
+                        <span>Presets</span>
+                        <select name="platform" onChange={handleSetDraft}>
+                            <option value="" aria-label="No suggestion">{`None (enter manually)`}</option>
+                            <optgroup label="Steam">
+                                <option value={"Steam for Windows"}>Steam for Windows</option>
+                                <option value={"Steam for Mac"}>Steam for Mac</option>
+                                <option value={"Steam for Linux"}>Steam for Linux</option>
+                            </optgroup>
+                            <optgroup label="Xbox">
+                                <option value={"Xbox One"}>Xbox One</option>
+                                <option value={"Xbox Series"}>Xbox Series</option>
+                                <option value={"Xbox PC"}>Xbox PC</option>
+                            </optgroup>
+                            <optgroup label="Playstation">
+                                <option value={"Playstation 4"}>Playstation 4</option>
+                                <option value={"Playstation 5"}>Playstation 5</option>
+                            </optgroup>
+                            <optgroup label="Switch">
+                                <option value={"Nintendo Switch"}>Nintendo Switch</option>
+                                <option value={"Nintendo Switch 2"}>Nintendo Switch 2</option>
+                            </optgroup>
+                        </select>
+                    </label>
+                    <label>
+                        <span>Platform name</span>
+                        <input type="text" name="platform" value={draft.platform} onChange={handleSetDraft}/>
+                    </label>
+                </fieldset>
+
                 <fieldset>
                     <legend>Stauts</legend>
                     <label>
