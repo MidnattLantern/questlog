@@ -125,25 +125,25 @@ function EditGame() {
                             <legend>Platform</legend>
                             <label>
                                 <span>Presets</span>
-                                <select name="platform" onChange={handleSetEditDraft}>
+                                <select name="platform" defaultValue={editDraft.platform} onChange={handleSetEditDraft}>
                                     <option value="" aria-label="No suggestion">{`None (enter manually)`}</option>
                                     <optgroup label="Steam">
-                                        <option value={"Steam for Windows"} selected={editDraft.platform === "Steam for Windows"}>Steam for Windows</option>
-                                        <option value={"Steam for Mac"} selected={editDraft.platform === "Steam for Mac"}>Steam for Mac</option>
-                                        <option value={"Steam for Linux"} selected={editDraft.platform === "Steam for Linux"}>Steam for Linux</option>
+                                        <option value={"Steam for Windows"}>Steam for Windows</option>
+                                        <option value={"Steam for Mac"}>Steam for Mac</option>
+                                        <option value={"Steam for Linux"}>Steam for Linux</option>
                                     </optgroup>
                                     <optgroup label="Xbox">
-                                        <option value={"Xbox One"} selected={editDraft.platform === "Xbox One"}>Xbox One</option>
-                                        <option value={"Xbox Series"} selected={editDraft.platform === "Xbox Series"}>Xbox Series</option>
-                                        <option value={"Xbox PC"} selected={editDraft.platform === "Xbox PC"}>Xbox PC</option>
+                                        <option value={"Xbox One"}>Xbox One</option>
+                                        <option value={"Xbox Series"}>Xbox Series</option>
+                                        <option value={"Xbox PC"}>Xbox PC</option>
                                     </optgroup>
                                     <optgroup label="Playstation">
-                                        <option value={"Playstation 4"} selected={editDraft.platform === "Playstation 4"}>Playstation 4</option>
-                                        <option value={"Playstation 5"} selected={editDraft.platform === "Playstation 5"}>Playstation 5</option>
+                                        <option value={"Playstation 4"}>Playstation 4</option>
+                                        <option value={"Playstation 5"}>Playstation 5</option>
                                     </optgroup>
                                     <optgroup label="Switch">
-                                        <option value={"Nintendo Switch"} selected={editDraft.platform === "Nintendo Switch"}>Nintendo Switch</option>
-                                        <option value={"Nintendo Switch 2"} selected={editDraft.platform === "Nintendo Switch 2"}>Nintendo Switch 2</option>
+                                        <option value={"Nintendo Switch"}>Nintendo Switch</option>
+                                        <option value={"Nintendo Switch 2"}>Nintendo Switch 2</option>
                                     </optgroup>
                                 </select>
                             </label>
