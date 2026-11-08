@@ -28,7 +28,6 @@ function GameCollection() {
 	}
 
 	function handleChangeGameStatus(e: React.ChangeEvent) {
-		console.log('change status')
 		handleSetApiFetchStatus('isLoading', true)
 		setGameStatusFilter((e.target as HTMLSelectElement).value)
 		handleSetApiFetchStatus('isLoading', false)
@@ -65,7 +64,6 @@ function GameCollection() {
 		})
 		.finally(() => {
 			handleSetApiFetchStatus('isLoading', false)
-			console.log('foo')
 		})
 	}, [gameStatusFilter])
 	// =======

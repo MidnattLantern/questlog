@@ -130,6 +130,13 @@ The directories are still just called "component", living within a page director
 ### useEffect with custom hooks
 If you–like me–tried to first update a global state, then re-render content using the new value within the same function, you'll see the DOM is always one state update behind. React handle variable states and DOM rendering differently from vanilla JavaScript. This is one reason useEffect is useful: keeping hooks as the one and only source-of-truth while achieving expected DOM behaviour.
 
+### Converting localstorage
+Data looks different across JavaScript and localstorage: localstorage as text string, JavaScript as objects.
+
+When converting data from JavaScript object to localstorage, use [JSON.parse()](https://www.w3schools.com/js/js_json_parse.asp); from localstorage to JavaScript object, use [JSON.stringify()](https://www.w3schools.com/js/js_json_stringify.asp).
+
+This project has a custom hook that utilize localstorage. "gameStatusFilter" reads as an object in JavaScript but is converted to a string for localstorage.
+
 ## Technical debt
 Compromises that were made to hit the deadline, they're documented so that they could potentially be addressed in a future reiteration.
 
@@ -137,7 +144,7 @@ Compromises that were made to hit the deadline, they're documented so that they 
 Across the pages, you'll notice an echo of fetchers, somthing along "handleFetchGame". Each may vary to satisfy the specific conditions, and may be within a useEffect or outside one. This could be centralized in a file which is able to handle varying conditions.
 
 ### General design decision flaws
-I could during programming sense smelly code, but due to lacking experience, I was unable to fully identify and document these decisions. Such shortcommings will however be revealed as you gain experience as a developer and revisit old codebases.
+I could during programming sense smelly code, but due to lacking experience, I was unable to fully identify and document these decisions. Such shortcommings will however be revealed as you gain experience as a developer and revisit old codebases. For instance, gameStatus set to show all evaluates to an empty string, although this works, I'm unsure if this is fine or bad practice.
 
 ## Helpful notes
 ### Emulate throttling (Firefox)
