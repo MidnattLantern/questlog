@@ -6,13 +6,15 @@ function EditCreateForm({
     handleSetDraft,
     handleSave,
     disabledSubmitButton,
-    submitButtonText = 'Save'
+    submitButtonText = 'Save',
+    onSubmitButtonText = 'Saving…'
 } : {
     draft: IDraft,
     handleSetDraft: (event: React.ChangeEvent) => void,
     handleSave: (event: React.SubmitEvent) => void,
     disabledSubmitButton: boolean,
-    submitButtonText?: string
+    submitButtonText?: string,
+    onSubmitButtonText?: string
 }) {
 
     return (
@@ -109,7 +111,7 @@ function EditCreateForm({
                 <textarea value={draft.notes} name="notes" rows={5} onChange={handleSetDraft}/>
             </label>
 
-            <input type="submit" value={disabledSubmitButton ? 'Saving…' : submitButtonText} disabled={disabledSubmitButton}/>
+            <input type="submit" value={disabledSubmitButton ? onSubmitButtonText : submitButtonText} disabled={disabledSubmitButton}/>
         </form>
     )
 }

@@ -143,6 +143,9 @@ Compromises that were made to hit the deadline, they're documented so that they 
 ### WET api-fetchers
 Across the pages, you'll notice an echo of fetchers, somthing along "handleFetchGame". Each may vary to satisfy the specific conditions, and may be within a useEffect or outside one. This could be centralized in a file which is able to handle varying conditions.
 
+### Redundant submit button logic
+This is at its worst in EditGame.tsx. Without any extra logic, the save button will say "saving" when performing a deletion, and the delete button will say "deleting" when performing a patch. It's tricky to address this while writing an elegant solution. Trying to clean this up shouldn't break the app, the only thing at stake is decent UX.
+
 ### General design decision flaws
 I could during programming sense smelly code, but due to lacking experience, I was unable to fully identify and document these decisions. Such shortcommings will however be revealed as you gain experience as a developer and revisit old codebases. For instance, gameStatus set to show all evaluates to an empty string, although this works, I'm unsure if this is fine or bad practice.
 

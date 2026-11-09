@@ -30,6 +30,7 @@ function EditGame() {
     })
     const [submitErrorMessage, setSubmitErrorMessage] = useState<string | null>(null)
     const [disabledSubmitButton, setDisabledSubmitButton] = useState<boolean>(false)
+    const [onDeletion, setOnDeletion] = useState<boolean>(false)
     const [confirmDeleteView, setConfirmDeleteView] = useState<boolean>(false)
     // ======
 
@@ -77,6 +78,7 @@ function EditGame() {
     async function handleDeleteGame() {
         setDisabledSubmitButton(true)
         setConfirmDeleteView(false)
+        setOnDeletion(true)
         
         try {
             const response = await fetch(`${baseUrl}/${id}`, {
@@ -99,6 +101,7 @@ function EditGame() {
             return
         } finally {
             setDisabledSubmitButton(false)
+            setOnDeletion(false)
         }
     }
     // ====================
@@ -141,11 +144,11 @@ function EditGame() {
         <>
             <h2>Edit</h2>
             <BackToCollectionButton/>
-                {(!apiFetchStatus.isLoading && apiFetchStatus.fetchOk) ? (
-                    <EditCreateForm draft={editDraft} handleSetDraft={handleSetEditDraft} handleSave={handleSaveChanges} disabledSubmitButton={disabledSubmitButton}/>
-                ) : (
-                    <NonOkResponse apiFetchStatus={apiFetchStatus}/>
-                )}
+            {(!apiFetchStatus.isLoading && apiFetchStatus.fetchOk) ? (
+                <EditCreateForm draft={editDraft} handleSetDraft={handleSetEditDraft} handleSave={handleSaveChanges} disabledSubmitButton={disabledSubmitButton} submitButtonText="Save changes" onSubmitButtonText={onDeletion ? 'Save changes' : 'Saving…'}/>
+            ) : (
+                <NonOkResponse apiFetchStatus={apiFetchStatus}/>
+            )}
             {confirmDeleteView ? (
                 <>
                     <p>Deleting "{editDraft.title}" cannot be undone, are you sure?</p>
@@ -153,9 +156,7 @@ function EditGame() {
                     <button onClick={handleDeleteGame}>Yes, delete "{editDraft.title}"</button>
                 </>
             ) : (
-                <>
-                    <button onClick={() => {setConfirmDeleteView(true)}} disabled={disabledSubmitButton}>{disabledSubmitButton ? 'Deleting…' : "Delete"}</button>
-                </>
+                <button onClick={() => {setConfirmDeleteView(true)}} disabled={disabledSubmitButton}>{onDeletion ? 'Deleting…' : "Delete"}</button>
             )}
             {submitErrorMessage && <p>{submitErrorMessage}</p>}
         </>

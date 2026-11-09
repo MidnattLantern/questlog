@@ -28,8 +28,6 @@ function CreateGame() {
     // ====================
     function handleSetDraft(event: React.ChangeEvent) { // consider moving to sessionMemory.ts
         const target = event.target as HTMLInputElement
-        console.log(target.name)
-        console.log(target.value)
         // target.value is passed as string, some need to be converted to nuber
         if (target.name === 'rating')   setDraft(prev => {return {...prev, [target.name]: Number(target.value)}})
         else                            setDraft(prev => {return {...prev, [target.name]: target.value}})
@@ -38,10 +36,7 @@ function CreateGame() {
     async function handleSubmit(event: React.SubmitEvent) { // consider moving to sessionMemory.ts
         setDisabledSubmitButton(true)
         event.preventDefault()
-        console.log(event)
-        console.log(draft)
         try {
-            console.log('attempting submit')
             const response = await fetch(`${baseUrl}`,{
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -74,7 +69,7 @@ function CreateGame() {
         <>
             <h2>Create</h2>
             <BackToCollectionButton/>
-            <EditCreateForm draft={draft} handleSetDraft={handleSetDraft} handleSave={handleSubmit} disabledSubmitButton={disabledSubmitButton} submitButtonText="Create"/>
+            <EditCreateForm draft={draft} handleSetDraft={handleSetDraft} handleSave={handleSubmit} disabledSubmitButton={disabledSubmitButton} submitButtonText="Create & save" onSubmitButtonText="Creating…"/>
             {submitErrorMessage && <p>{submitErrorMessage}</p>}
         </>
     )
