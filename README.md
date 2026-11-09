@@ -161,3 +161,11 @@ This project use Eslint, though as of writing this (3 November 2026), running th
   "typescript": "~6.0.3"
 }
 ```
+
+### Parsing functions for TypeScript
+You're probably familiar with parsing things sucha strings, booleans, or numbers in TypeScrpt. If it's regarding a function, you can parse that as well.
+```ts
+function handleSomething({myFunction}: {() => void}) {
+
+}
+```

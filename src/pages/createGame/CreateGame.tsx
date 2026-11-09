@@ -1,9 +1,10 @@
-import Styles from "./CreateGame.module.scss"
+// import Styles from "./CreateGame.module.scss"
 import { useState } from "react"
 import BackToCollectionButton from "../../components/backToCollectionButton/BackToCollectionButton"
 import type { IDraft } from "../../models/draft"
 import { baseUrl } from "../../config"
 import { useNavigate } from "react-router"
+import EditCreateForm from "../../components/editCreateForm/EditCreateForm"
 
 function CreateGame() {
 	// ======
@@ -25,12 +26,16 @@ function CreateGame() {
     // ====================
     // Functions & handlers
     // ====================
-    function handleSetDraft(event: React.ChangeEvent) {
+    function handleSetDraft(event: React.ChangeEvent) { // consider moving to sessionMemory.ts
         const target = event.target as HTMLInputElement
-        setDraft(prev => {return {...prev, [target.name]: target.value}})
+        console.log(target.name)
+        console.log(target.value)
+        // target.value is passed as string, some need to be converted to nuber
+        if (target.name === 'rating')   setDraft(prev => {return {...prev, [target.name]: Number(target.value)}})
+        else                            setDraft(prev => {return {...prev, [target.name]: target.value}})
     }
 
-    async function handleSubmit(event: React.SubmitEvent) {
+    async function handleSubmit(event: React.SubmitEvent) { // consider moving to sessionMemory.ts
         setDisabledSubmitButton(true)
         event.preventDefault()
         console.log(event)
@@ -69,101 +74,7 @@ function CreateGame() {
         <>
             <h2>Create</h2>
             <BackToCollectionButton/>
-            <form onSubmit={handleSubmit} className={Styles.form}>
-                <label>
-                    <span>Title</span>
-                    <input type="text" name="title" value={draft.title} onChange={handleSetDraft}/>
-                </label>
-
-                <fieldset>
-                    <legend>Platform</legend>
-                    <label>
-                        <span>Presets</span>
-                        <select name="platform" onChange={handleSetDraft}>
-                            <option value="">{`None (enter manually)`}</option>
-                            <optgroup label="Steam">
-                                <option value={"Steam for Windows"}>Steam for Windows</option>
-                                <option value={"Steam for Mac"}>Steam for Mac</option>
-                                <option value={"Steam for Linux"}>Steam for Linux</option>
-                            </optgroup>
-                            <optgroup label="Xbox">
-                                <option value={"Xbox One"}>Xbox One</option>
-                                <option value={"Xbox Series"}>Xbox Series</option>
-                                <option value={"Xbox PC"}>Xbox PC</option>
-                            </optgroup>
-                            <optgroup label="Playstation">
-                                <option value={"Playstation 4"}>Playstation 4</option>
-                                <option value={"Playstation 5"}>Playstation 5</option>
-                            </optgroup>
-                            <optgroup label="Switch">
-                                <option value={"Nintendo Switch"}>Nintendo Switch</option>
-                                <option value={"Nintendo Switch 2"}>Nintendo Switch 2</option>
-                            </optgroup>
-                        </select>
-                    </label>
-                    <label>
-                        <span>Platform name</span>
-                        <input type="text" name="platform" value={draft.platform} onChange={handleSetDraft}/>
-                    </label>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Stauts</legend>
-                    <label>
-                        <input type="radio" name="status" value={'playing'} onChange={handleSetDraft}/>
-                        <span>Playing</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="status" value={'completed'} onChange={handleSetDraft}/>
-                        <span>Completed</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="status" value={'want'} onChange={handleSetDraft}/>
-                        <span>Want</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="status" value={'dropped'} onChange={handleSetDraft}/>
-                        <span>Dropped</span>
-                    </label>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Rating</legend>
-                    <label>
-                        <input type="radio" name="rating" value={1} onChange={handleSetDraft}/>
-                        <span>1</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="rating" value={2} onChange={handleSetDraft}/>
-                        <span>2</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="rating" value={3} onChange={handleSetDraft}/>
-                        <span>3</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="rating" value={4} onChange={handleSetDraft}/>
-                        <span>4</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="rating" value={5} onChange={handleSetDraft}/>
-                        <span>5</span>
-                    </label>
-                </fieldset>
-
-                <label>
-                    <span>Cover image "URL" link</span>
-                    <input type="text" name="coverUrl" value={draft.coverUrl} onChange={handleSetDraft}/>
-                </label>
-                {draft.coverUrl ? <img src={draft.coverUrl} alt="Image preview" width={300}/> : <p>Image Preview</p>}
-
-                <label>
-                    <span>Notes</span>
-                    <textarea value={draft.notes} name="notes" rows={5} onChange={handleSetDraft}/>
-                </label>
-
-                <input type="submit" value={disabledSubmitButton ? 'Creating…' : 'Save & create'} disabled={disabledSubmitButton}/>
-            </form>
+            <EditCreateForm draft={draft} handleSetDraft={handleSetDraft} handleSave={handleSubmit} disabledSubmitButton={disabledSubmitButton} submitButtonText="Create"/>
             {submitErrorMessage && <p>{submitErrorMessage}</p>}
         </>
     )
