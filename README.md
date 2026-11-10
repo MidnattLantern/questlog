@@ -149,6 +149,9 @@ This is at its worst in EditGame.tsx. Without any extra logic, the save button w
 ### General design decision flaws
 I could during programming sense smelly code, but due to lacking experience, I was unable to fully identify and document these decisions. Such shortcommings will however be revealed as you gain experience as a developer and revisit old codebases. For instance, gameStatus set to show all evaluates to an empty string, although this works, I'm unsure if this is fine or bad practice.
 
+### Custom hook holding games as array and single object
+Initially this was supposed to be a single state, but this state can be either a single game or an array of game. TypeScript will complain when trying to include both, not at the hook, but at the components. The current workaround use two states and conditions telling whether to use the single object or array.
+
 ## Helpful notes
 ### Emulate throttling (Firefox)
 When developing a service that makes API calls, you'll want to see how the page behaves during the network requests. In the year 2026 of Scandinavia, internet is good – too good. To slow down the network requests, browsers let you emulate slower connections. In Firefox, hit F12, go to the Networks tab, click the dropdown bar next to the cogwheel, by default it says "No Throttling", then select any options that's slow enough. [Throttling — Firefox Source Docs documentation - Mozilla](https://firefox-source-docs.mozilla.org/devtools-user/network_monitor/throttling/index.html)
