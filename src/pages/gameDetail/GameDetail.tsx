@@ -5,7 +5,7 @@ import useGames from "../../hooks/useGames"
 
 function GameDetail() {
     const { id } = useParams()
-    const { game, errorMessage, isLoading } = useGames({id})
+    const { game, errorMessage, isLoading } = useGames(id)
 
     return (
         <>

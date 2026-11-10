@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { IGame } from "../models/game";
 import { baseUrl } from "../config";
 
-function useGames<T>({id = null}: {id?: null | T}) {
+function useGames<T>(id: null | T = null) {
     // TypeScript won't allow IGame as both single object and array, so game has been split to two
     const [gameCollection, setGameCollection] = useState<IGame[] | null>(null)
     const [game, setGame] = useState<IGame | null>(null)

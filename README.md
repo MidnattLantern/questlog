@@ -14,6 +14,8 @@ I love video games, so it may not come as a surprise that I struggle with the in
 
 This CRUD page is a proof of concept and does not authorize the user. Any visitor may alter any content, so the person the page represent is play pretend (Foby Tox). Terms and conditions: You may perform any CRUD operation, and you aggree that another user may alter your content any time.
 
+Questlog involve React functionality, such as useState, useEffect, passing props across parents and children, developing reusable components, using the Node package React Router to perform routing (using "data mode"), and using custom hooks to store states and perform API CRUD actions. Hopefully this holds the standards for a merit "VG", but delivering a functional and passable product is good enough at the end of the day.
+
 ## Packages
 ### SASS
 Making cascade stylesheets more convenient to work with, such as nested selected within declarations, or `// single line` comments that isn't `/* mutiline */`.
@@ -146,11 +148,14 @@ Across the pages, you'll notice an echo of fetchers, somthing along "handleFetch
 ### Redundant submit button logic
 This is at its worst in EditGame.tsx. Without any extra logic, the save button will say "saving" when performing a deletion, and the delete button will say "deleting" when performing a patch. It's tricky to address this while writing an elegant solution. Trying to clean this up shouldn't break the app, the only thing at stake is decent UX.
 
-### General design decision flaws
-I could during programming sense smelly code, but due to lacking experience, I was unable to fully identify and document these decisions. Such shortcommings will however be revealed as you gain experience as a developer and revisit old codebases. For instance, gameStatus set to show all evaluates to an empty string, although this works, I'm unsure if this is fine or bad practice.
-
 ### Custom hook holding games as array and single object
 Initially this was supposed to be a single state, but this state can be either a single game or an array of game. TypeScript will complain when trying to include both, not at the hook, but at the components. The current workaround use two states and conditions telling whether to use the single object or array.
+
+### Custom hooks mixing async functions and .then() chains
+Working with custom hooks is an area I am not confident with, so I'm unsure how to best perforn asynchorus actions. This codebase will use a mix of async functions and .then() chains that likely showcase the standards of a junior developer. I aim to understand custom hooks better with future projects.
+
+### General design decision flaws
+I could during programming sense smelly code, but due to lacking experience, I was unable to fully identify and document these decisions. Such shortcommings will however be revealed as you gain experience as a developer and revisit old codebases. For instance, gameStatus set to show all evaluates to an empty string, although this works, I'm unsure if this is fine or bad practice.
 
 ## Helpful notes
 ### Emulate throttling (Firefox)

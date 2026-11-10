@@ -2,15 +2,18 @@
 import { useState } from "react"
 import BackToCollectionButton from "../../components/backToCollectionButton/BackToCollectionButton"
 import type { IDraft } from "../../models/draft"
-import { baseUrl } from "../../config"
-import { useNavigate } from "react-router"
 import EditCreateForm from "../../components/editCreateForm/EditCreateForm"
+import useCrudOperations from "../../hooks/useCrudOperations"
 
 function CreateGame() {
 	// ======
 	// States
 	// ======
-    const navigate = useNavigate()
+    const {
+        handleCreateGame,
+        submitErrorMessage,
+        disabledSubmitButton
+    } = useCrudOperations()
     const [draft, setDraft] = useState<IDraft>({
         title: '',
         platform: '',
@@ -19,8 +22,6 @@ function CreateGame() {
         coverUrl: '',
         notes: ''
     })
-    const [submitErrorMessage, setSubmitErrorMessage] = useState<string | null>(null)
-    const [disabledSubmitButton, setDisabledSubmitButton] = useState<boolean>(false)
 	// ======
 
     // ====================
@@ -33,32 +34,9 @@ function CreateGame() {
         else                            setDraft(prev => {return {...prev, [target.name]: target.value}})
     }
 
-    async function handleSubmit(event: React.SubmitEvent) { // consider moving to sessionMemory.ts
-        setDisabledSubmitButton(true)
+    function handleSubmit(event: React.SubmitEvent) { // consider moving to sessionMemory.ts
         event.preventDefault()
-        try {
-            const response = await fetch(`${baseUrl}`,{
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(draft)
-            })
-            const data = await response.json()
-
-            if (!response.ok) {
-                console.log('response NOT ok', data)
-                setSubmitErrorMessage(data.message)
-                return
-            }
-
-            console.log('response ok', data)
-            navigate(`/detail/${data.id}`)
-
-        } catch (error) {
-            console.error('submit error:', error)
-            return
-        } finally {
-            setDisabledSubmitButton(false)
-        }
+        handleCreateGame(draft)       
     }
     // ====================
 

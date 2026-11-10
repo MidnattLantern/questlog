@@ -6,11 +6,10 @@ function GameCollection() {
 	// ======
 	// States
 	// ======
-	// const { data, errorMessage, isLoading } = useApiCrud()
 	const {
 		gameCollection, errorMessage, isLoading,
 		gameStatusFilter, setGameStatusFilter
-	} = useGames({})
+	} = useGames()
 	// ======
 
 	// ====================
