@@ -3,14 +3,12 @@ import { useParams } from "react-router"
 import BackToCollectionButton from "../../components/backToCollectionButton/BackToCollectionButton"
 import EditCreateForm from "../../components/editCreateForm/EditCreateForm"
 import useGames from "../../hooks/useGames"
-// import useCrudOperations from "../../hooks/useCrudOperations"
 
 function EditGame() {
 	// ======
 	// States
 	// ======
     const { id } = useParams()
-    // const { handlePatchGame, handleDeleteGame, submitErrorMessage, draftErrorMessage, handleSetDraft, fetckOk, draft, disabledSubmitButton } = useCrudOperations(id)
     const { handlePatchGame, handleDeleteGame, submitErrorMessage, draftErrorMessage, handleSetDraft, fetckOk, draft, disabledSubmitButton } = useGames({id: id, fetchData: true})
     // ======
 

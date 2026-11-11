@@ -53,8 +53,8 @@ function useGames({
             const data = await response.json()
             const status = response.status
             
-            console.log('create data', data)
-            console.log('create status', status)
+            console.log('handleCreateGame data', data)
+            console.log('handleCreateGame status', status)
 
             if (status === 201) { // consider response.ok
                 setSubmitErrorMessage(null)
@@ -83,8 +83,8 @@ function useGames({
             const data = await response.json()
             const status = response.status
 
-            console.log('patch data', data)
-            console.log('patch status', status)
+            console.log('handlePatchGame data', data)
+            console.log('handlePatchGame status', status)
 
             if (!response.ok) {
                 setSubmitErrorMessage(data.message)
@@ -111,8 +111,8 @@ function useGames({
             const data = await response.json()
             const status = response.status
 
-            console.log('delete data', data)
-            console.log('delete status', status)
+            console.log('handleDeleteGame data', data)
+            console.log('handleDeleteGame status', status)
 
             if (!response.ok) {
                 setSubmitErrorMessage(`Failed to delete game–${data.message}`)
@@ -144,34 +144,33 @@ function useGames({
                     const response = await fetch(`${baseUrl}${statusQuery}`)
                     const data = await response.json()
                     const status = response.status
-                    return {data, status}
+
+                    console.log('handleFetchCollection data:', data)
+                    console.log('handleFetchCollection status:', status)
+
+                    if (status === 200) {
+                        if (id) { // if id is passed, that means the hook should handle a single game
+                            setDraft(data)
+                            setFetchOk(true)
+                        } else {
+                            setGameCollection(data)
+                        }
+                    } else if (status === 404) {
+                        setDraftErrorMessage(data.message)
+                    } else {
+                        // These two might need to be merged
+                        setErrorMessage(`Failed to fetch collection - server side error code: ${status}`)
+                        setDraftErrorMessage(`Failed to load game–${data.message}`)
+                    }
                 } catch (error) {
                     console.error('error:', error)
                     return
+                } finally {
+                    setIsLoading(false)
                 }
             }
 
             handleFetchCollection()
-            .then((fetched) => {
-                if (fetched?.status === 200) {
-                    // TypeScript won't allow IGame as both single object and array, so game has been split to two
-                    if (id) { // if id is passed, that means the hook should handle a single game
-                        setDraft(fetched.data)
-                        setFetchOk(true)
-                    }
-                    else setGameCollection(fetched.data)
-                    setErrorMessage(null)
-                } else if (fetched?.status === 404) {
-                    setDraftErrorMessage(fetched?.data.message)
-                } else {
-                    // These two might need to be merged
-                    setErrorMessage(`Failed to fetch collection - server side error code: ${fetched?.status}`)
-                    setDraftErrorMessage(`Failed to load game–${fetched?.data.message}`)
-                }
-            })
-            .finally(() => {
-                setIsLoading(false)
-            })
         }
 
     }, [fetchData, gameStatusFilter, id])

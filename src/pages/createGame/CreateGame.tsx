@@ -4,17 +4,11 @@ import BackToCollectionButton from "../../components/backToCollectionButton/Back
 import type { IDraft } from "../../models/draft"
 import EditCreateForm from "../../components/editCreateForm/EditCreateForm"
 import useGames from "../../hooks/useGames"
-// import useCrudOperations from "../../hooks/useCrudOperations"
 
 function CreateGame() {
 	// ======
 	// States
 	// ======
-    // const {
-    //     handleCreateGame,
-    //     submitErrorMessage,
-    //     disabledSubmitButton
-    // } = useCrudOperations()
     const {
         handleCreateGame,
         submitErrorMessage,

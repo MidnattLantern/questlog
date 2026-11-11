@@ -6,6 +6,7 @@ Developed by Alma Isaksson 2026
 - [Packages](#packages)
 - [Codebase architecture](#codebase-architecture)
 - [Technical debt](#technical-debt)
+- [Future features](#future-features)
 - [Helpful notes](#helpful-notes)
 - [Other notes](#other-notes)
 
@@ -142,20 +143,14 @@ This project has a custom hook that utilize localstorage. "gameStatusFilter" rea
 ## Technical debt
 Compromises that were made to hit the deadline, they're documented so that they could potentially be addressed in a future reiteration.
 
-### WET api-fetchers
-Across the pages, you'll notice an echo of fetchers, somthing along "handleFetchGame". Each may vary to satisfy the specific conditions, and may be within a useEffect or outside one. This could be centralized in a file which is able to handle varying conditions.
-
 ### Redundant submit button logic
 This is at its worst in EditGame.tsx. Without any extra logic, the save button will say "saving" when performing a deletion, and the delete button will say "deleting" when performing a patch. It's tricky to address this while writing an elegant solution. Trying to clean this up shouldn't break the app, the only thing at stake is decent UX.
 
-### Custom hook holding games as array and single object
-Initially this was supposed to be a single state, but this state can be either a single game or an array of game. TypeScript will complain when trying to include both, not at the hook, but at the components. The current workaround use two states and conditions telling whether to use the single object or array.
+## Future features
+Ideas how this project could potentially be improved
 
-### Custom hooks mixing async functions and .then() chains
-Working with custom hooks is an area I am not confident with, so I'm unsure how to best perforn asynchorus actions. This codebase will use a mix of async functions and .then() chains that likely showcase the standards of a junior developer. I aim to understand custom hooks better with future projects.
-
-### General design decision flaws
-I could during programming sense smelly code, but due to lacking experience, I was unable to fully identify and document these decisions. Such shortcommings will however be revealed as you gain experience as a developer and revisit old codebases. For instance, gameStatus set to show all evaluates to an empty string, although this works, I'm unsure if this is fine or bad practice.
+### Storing reusable fetched data across pages and save on API traffic
+For the purpose of this project, a GET API call is made every time you enter a page that needs that data, including filtering the collection. To save on traffic, one could reduce on API fetch requests by storing the collection from one single call–with a state, localstorage/ sessionstorage, or a mix of both. Then, actions such as filtering or using one object (for edit) would be handled via client JavaScript, since there's enough information provided by the backend to work with. Note this assumes the data isn't sensitive, sometimes more api calls are neccessary for cyber-security.
 
 ## Helpful notes
 ### Emulate throttling (Firefox)
