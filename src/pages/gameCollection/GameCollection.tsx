@@ -4,8 +4,9 @@ import useGames from "../../hooks/useGames"
 
 function GameCollection() {
 	const {
-		gameCollection, errorMessage, isLoading,
-		gameStatusFilter, setGameStatusFilter
+		errorMessage, isLoading,
+		gameStatusFilter, setGameStatusFilter,
+		gameCollection
 	} = useGames({fetchData: true})
 
 	function handleChangeGameStatus(e: React.ChangeEvent) {
@@ -14,6 +15,8 @@ function GameCollection() {
 
 	return (
 		<>
+			{errorMessage && <p>{errorMessage}</p>}
+			{isLoading && <p>loading…</p>}
 			<p>gameStatusFilter: {gameStatusFilter}</p>
 			<select defaultValue={gameStatusFilter ? gameStatusFilter : ''} onChange={handleChangeGameStatus}>
 				<option value={''}>All</option>
@@ -21,8 +24,6 @@ function GameCollection() {
 					<option key={option} value={option}>{option}</option>
 				))}
 			</select>
-			{isLoading && <p>loading…</p>}
-			{errorMessage && <p>{errorMessage}</p>}
 			{gameCollection ? gameCollection.map(game => (<GameCard key={game.id} game={game} preview={true}/>)) : undefined}
 		</>
 	)

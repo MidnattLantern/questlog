@@ -5,11 +5,8 @@ import useGames from "../../hooks/useGames"
 
 function CreateGame() {
     const {
-        errorMessage,
-        disabledSubmitButton,
-        handlePerformCrudOperation,
-        draft,
-        handleSetDraft
+        errorMessage, draft, disabledSubmitButton,
+        handlePerformCrudOperation, handleSetDraft
     } = useGames()
 
     function handleSubmit(event: React.SubmitEvent) {
@@ -20,8 +17,15 @@ function CreateGame() {
         <>
             <h2>Create</h2>
             <BackToCollectionButton/>
-            <EditCreateForm draft={draft} handleSetDraft={handleSetDraft} handleSave={handleSubmit} disabledSubmitButton={disabledSubmitButton} submitButtonText="Create & save" onSubmitButtonText="Creating…"/>
             {errorMessage && <p>{errorMessage}</p>}
+            <EditCreateForm
+                draft={draft}
+                handleSetDraft={handleSetDraft}
+                handleSave={handleSubmit}
+                disabledSubmitButton={disabledSubmitButton}
+                submitButtonText="Create & save"
+                onSubmitButtonText="Creating…"
+            />
         </>
     )
 }

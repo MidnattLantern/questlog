@@ -7,10 +7,8 @@ import useGames from "../../hooks/useGames"
 function EditGame() {
     const { id } = useParams()
     const {
-        // handleDeleteGame,
-        errorMessage,
-        handleSetDraft, draft, disabledSubmitButton,
-        handlePerformCrudOperation
+        errorMessage, draft, disabledSubmitButton,
+        handlePerformCrudOperation, handleSetDraft
     } = useGames({id: id, fetchData: true})
 
     function handleSubmit(event: React.SubmitEvent) {

@@ -5,16 +5,18 @@ import useGames from "../../hooks/useGames"
 
 function GameDetail() {
     const { id } = useParams()
-    const { errorMessage, isLoading, draft } = useGames({id: id, fetchData: true})
+    const {
+        errorMessage, draft, isLoading
+    } = useGames({id: id, fetchData: true})
 
     return (
         <>
             <h2>Game detail</h2>
             <BackToCollectionButton/>
             <p>ID in question: {id}</p>
+            {isLoading && <p>loading…</p>}
+            {errorMessage && <p>{errorMessage}</p>}
             <div>
-                {isLoading && <p>loading…</p>}
-                {errorMessage && <p>{errorMessage}</p>}
                 {draft && <GameCard game={draft}/>}
             </div>
         </>

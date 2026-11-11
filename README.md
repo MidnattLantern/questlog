@@ -140,11 +140,18 @@ When converting data from JavaScript object to localstorage, use [JSON.parse()](
 
 This project has a custom hook that utilize localstorage. "gameStatusFilter" reads as an object in JavaScript but is converted to a string for localstorage.
 
+### The useGames hook
+`useGames` is a custom hook that manage most of the logic for this projects CRUD operations.
+
+`gameCollection` is an array of games, `draft` is for one game and creating or editing. Initially there were a "game" state for managing one single game. One state couldn't handle both a single object and array. During development, it was discovered during the making of draft that the draft could double function as the initial "game" state.
+
+While passing a game's ID, it is autmatically implied that this hook should make operations related to one game.
+
 ## Technical debt
 Compromises that were made to hit the deadline, they're documented so that they could potentially be addressed in a future reiteration.
 
-### Redundant submit button logic
-This is at its worst in EditGame.tsx. Without any extra logic, the save button will say "saving" when performing a deletion, and the delete button will say "deleting" when performing a patch. It's tricky to address this while writing an elegant solution. Trying to clean this up shouldn't break the app, the only thing at stake is decent UX.
+### handlePerformCrudOperation not utulizing GET (useCallback?)
+The useGames custom props is intended to handle any CRUD operation through one centralized function, however, because the app perform GET methods on effect, that effect has its own specialized CRUD handler specific for GET requests. It seems it's possible to include GET methods as well for handlePerformCrudOperation by involving useCallback, since React alert that useCallback should be considered when attempting to fire handlePerformCrudOperation from within the useEffect block. For the time being, figuring out how to use callback is out of scope.
 
 ## Future features
 Ideas how this project could potentially be improved

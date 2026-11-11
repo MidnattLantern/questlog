@@ -87,7 +87,7 @@ function useGames({
             console.log('useGames fetching data')
             localStorage.setItem('gameStatusFilter', JSON.stringify(gameStatusFilter))
 
-            async function handleFetchCollection() {
+            async function handleFetchCollection() { // useEffect won't allow using handlePerformCrudOperation without extra setup
                 setIsLoading(true)
                 try {
                     let statusQuery: string = ''
@@ -102,6 +102,7 @@ function useGames({
 
                     if (!response.ok) {
                         setErrorMessage(`Failed to fetch collection - server side error code: ${status}`)
+                        if (id && status === 404) navigate('*') // without this redirection, user can see detail and edit elements for non existing games
                         return
                     }
 
@@ -118,13 +119,12 @@ function useGames({
             handleFetchCollection()
         }
 
-    }, [fetchData, gameStatusFilter, id])
+    }, [fetchData, gameStatusFilter, id, navigate])
 
     return {
-        disabledSubmitButton,
-        handleSetDraft,
-        gameCollection, errorMessage, isLoading, draft,
-        gameStatusFilter, setGameStatusFilter,
+        isLoading, errorMessage, disabledSubmitButton, // Limbos
+        gameCollection, draft, gameStatusFilter, // Data
+        handleSetDraft, setGameStatusFilter,
         handlePerformCrudOperation
     }
 }
