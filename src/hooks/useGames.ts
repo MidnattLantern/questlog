@@ -15,7 +15,6 @@ function useGames({
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
-    const [fetckOk, setFetchOk] = useState<boolean>(false)
     const [disabledSubmitButton, setDisabledSubmitButton] = useState<boolean>(false)
     const [gameCollection, setGameCollection] = useState<IGame[] | null>(null)
     const [draft, setDraft] = useState<IDraft>({ // Also functional for single game as read only
@@ -39,20 +38,23 @@ function useGames({
         else                            setDraft(prev => {return {...prev, [target.name]: target.value}})
     }
 
-    async function handlePerformCrudOperation({ // currently only works for POST
+    async function handlePerformCrudOperation({ // currently only works for POST and PATCH
         method,
-        draft = null
+        draft = null,
+        id = null
     } : {
         method: 'POST' | 'PATCH' | 'DELETE',
-        draft?: null | IDraft
+        draft?: null | IDraft,
+        id?: null | string
     }) {
         setIsLoading(true)
         setDisabledSubmitButton(true)
         try {
-            const response = await fetch(`${baseUrl}`, {
+            let idQuery = ''
+            if (method === 'PATCH') idQuery = `/${id}`
+            const response = await fetch(`${baseUrl}${idQuery}`, {
                 method: method,
                 headers: {'Content-Type': 'application/json'},
-                // body: (draft && method !== 'GET') ? JSON.stringify(draft) : null
                 body: JSON.stringify(draft)
             })
             const data = await response.json()
@@ -61,47 +63,19 @@ function useGames({
             console.log('handlePerformCrudOperation data', data)
             console.log('handlePerformCrudOperation status', status)
 
-            setFetchOk(response.ok)
             if (!response.ok) {
                 setErrorMessage(data.message)
                 return
             }
 
             if (method === 'POST') navigate(`/detail/${data.id}`)
+            if (method === 'PATCH') navigate(`/detail/${id}`)
         } catch (error) {
             console.log(`Failed to perform CRUD operation "${method}" - ${error}`)
         } finally {
             setIsLoading(false)
             setDisabledSubmitButton(false)
         }
-    }
-
-    async function handlePatchGame(event: React.SubmitEvent) {
-        event.preventDefault()
-        setDisabledSubmitButton(true)
-        try {
-            const response = await fetch(`${baseUrl}/${id}`, {
-                method: 'PATCH',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(draft)
-            })
-            const data = await response.json()
-            const status = response.status
-
-            console.log('handlePatchGame data', data)
-            console.log('handlePatchGame status', status)
-
-            if (!response.ok) {
-                setErrorMessage(data.message)
-                return
-            }
-            navigate(`/detail/${id}`)
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setDisabledSubmitButton(false)
-        }
-
     }
 
     async function handleDeleteGame() {
@@ -154,7 +128,7 @@ function useGames({
                     console.log('handleFetchCollection data:', data)
                     console.log('handleFetchCollection status:', status)
 
-                    setFetchOk(response.ok)
+                    // setFetchOk(response.ok)
                     if (!response.ok) {
                         setErrorMessage(`Failed to fetch collection - server side error code: ${status}`)
                         return
@@ -176,8 +150,10 @@ function useGames({
     }, [fetchData, gameStatusFilter, id])
 
     return {
-        fetckOk, disabledSubmitButton,
-        handleDeleteGame, handlePatchGame, handleSetDraft,
+        // fetckOk,
+        disabledSubmitButton,
+        handleDeleteGame,
+        handleSetDraft,
         gameCollection, errorMessage, isLoading, draft,
         gameStatusFilter, setGameStatusFilter,
         handlePerformCrudOperation

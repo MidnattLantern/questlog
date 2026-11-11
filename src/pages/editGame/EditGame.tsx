@@ -5,41 +5,28 @@ import EditCreateForm from "../../components/editCreateForm/EditCreateForm"
 import useGames from "../../hooks/useGames"
 
 function EditGame() {
-	// ======
-	// States
-	// ======
     const { id } = useParams()
-    const { handlePatchGame, handleDeleteGame,
-        // submitErrorMessage, draftErrorMessage,
+    const {
+        handleDeleteGame,
         errorMessage,
-        handleSetDraft, fetckOk, draft, disabledSubmitButton } = useGames({id: id, fetchData: true})
-    // ======
+        handleSetDraft, draft, disabledSubmitButton,
+        handlePerformCrudOperation
+    } = useGames({id: id, fetchData: true})
 
-    // ====================
-    // Functions & handlers
-    // ====================
+    function handleSubmit(event: React.SubmitEvent) {
+        event.preventDefault()
+        handlePerformCrudOperation({method: 'PATCH', draft: draft, id: id})
+    }
 
-    // ====================
-
-	// =======
-	// Effects
-	// =======
-
-	// =======
-
-    // ======
-	// Render
-	// ======
     return (
         <>
             <h2>Edit</h2>
             <BackToCollectionButton/>
             {errorMessage && <p>{errorMessage}</p>}
-            {fetckOk && <EditCreateForm draft={draft} handleSetDraft={handleSetDraft} handleSave={handlePatchGame} disabledSubmitButton={disabledSubmitButton} submitButtonText="Save changes"/>}
+            <EditCreateForm draft={draft} handleSetDraft={handleSetDraft} handleSave={handleSubmit} disabledSubmitButton={disabledSubmitButton} submitButtonText="Save changes"/>
             <button onClick={handleDeleteGame} disabled={disabledSubmitButton}>Delete</button>
         </>
     )
-    // ======
 }
 
 export default EditGame
