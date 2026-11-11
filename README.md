@@ -156,6 +156,9 @@ Compromises that were made to hit the deadline, they're documented so that they 
 ### handlePerformCrudOperation not utulizing GET (useCallback?)
 The useGames custom props is intended to handle any CRUD operation through one centralized function, however, because the app perform GET methods on effect, that effect has its own specialized CRUD handler specific for GET requests. It seems it's possible to include GET methods as well for handlePerformCrudOperation by involving useCallback, since React alert that useCallback should be considered when attempting to fire handlePerformCrudOperation from within the useEffect block. For the time being, figuring out how to use callback is out of scope.
 
+### Convoluted patch and delete submit buttons
+EditGame.tsx has two submit buttons: patch and delete. During a CRUD request, both buttons are disabled, but depending on what action you perform, you'd want one button to change its text content, i.e "Saving…". However, without care, you'd see the patch button saying "Saving…" while performing a deletion, and the delete button saying "Deleting…" while performing a patch. This component has a solution to this, however its logic may be hard to read and follow.
+
 ## Future features
 Ideas how this project could potentially be improved
 

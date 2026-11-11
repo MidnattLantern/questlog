@@ -47,7 +47,6 @@ function useGames({
         draft?: null | IDraft,
         id?: null | string
     }) {
-        setIsLoading(true)
         setDisabledSubmitButton(true)
         try {
             let idQuery = ''
@@ -75,7 +74,6 @@ function useGames({
         } catch (error) {
             console.log(`Failed to perform CRUD operation "${method}" - ${error}`)
         } finally {
-            setIsLoading(false)
             setDisabledSubmitButton(false)
         }
     }
