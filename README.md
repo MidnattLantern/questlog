@@ -58,6 +58,9 @@ Modular styling will make each component's names truly unique. Three files can h
 
 The exceptions are index.scss and stylesheets targeting SVG:s.
 
+### Prevalence of JavaScript AND (&&)
+You'll very often see the prevalence of something like: `something && <Something/>` or `something && { something }`. Such content is technically optional, so JavaScript needs this extra logic so that the site won't crash when said data hasn't yet been loaded.
+
 ### Components & Subcomponents
 There are two different kinds of components:
 - Those inside the "components" directory at "src" level

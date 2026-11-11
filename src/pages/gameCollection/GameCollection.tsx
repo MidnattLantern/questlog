@@ -1,6 +1,17 @@
 import { gameStatusOptions } from "../../config"
 import GameCard from "../../components/gameCard/GameCard"
 import useGames from "../../hooks/useGames"
+import { NavLink } from "react-router"
+import Loading from "../../components/loading/Loading"
+
+function EmptyCollection() {
+	return (
+		<div>
+			<p>Your questlog is empty</p>
+			<NavLink to='create'>Create your first game</NavLink>
+		</div>
+	)
+}
 
 function GameCollection() {
 	const {
@@ -15,16 +26,22 @@ function GameCollection() {
 
 	return (
 		<>
-			{errorMessage && <p>{errorMessage}</p>}
-			{isLoading && <p>loading…</p>}
-			<p>gameStatusFilter: {gameStatusFilter}</p>
 			<select defaultValue={gameStatusFilter ? gameStatusFilter : ''} onChange={handleChangeGameStatus}>
 				<option value={''}>All</option>
 				{gameStatusOptions.map(option => (
 					<option key={option} value={option}>{option}</option>
 				))}
 			</select>
-			{gameCollection ? gameCollection.map(game => (<GameCard key={game.id} game={game} preview={true}/>)) : undefined}
+			{errorMessage && <p>{errorMessage}</p>}
+			{isLoading ? (
+				<Loading/>
+			) : (
+				gameCollection && gameCollection.length > 0 ? (
+					gameCollection.map(game => (<GameCard key={game.id} game={game} preview={true}/>))
+				) : (
+					!errorMessage && <EmptyCollection /> // You don't want "questlog empty" to show alongside error message
+				)
+			)}
 		</>
 	)
 }
