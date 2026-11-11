@@ -38,7 +38,7 @@ function useGames({
         else                            setDraft(prev => {return {...prev, [target.name]: target.value}})
     }
 
-    async function handlePerformCrudOperation({ // currently only works for POST and PATCH
+    async function handlePerformCrudOperation({
         method,
         draft = null,
         id = null
@@ -52,13 +52,14 @@ function useGames({
         try {
             let idQuery = ''
             if (method === 'PATCH') idQuery = `/${id}`
+            if (method === 'DELETE') idQuery = `/${id}`
             const response = await fetch(`${baseUrl}${idQuery}`, {
                 method: method,
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(draft)
+                body: (method === 'DELETE') ? null : JSON.stringify(draft) // shouldn't pass body if method don't use it
             })
             const data = await response.json()
-            const status = await response.status
+            const status = response.status
 
             console.log('handlePerformCrudOperation data', data)
             console.log('handlePerformCrudOperation status', status)
@@ -70,6 +71,7 @@ function useGames({
 
             if (method === 'POST') navigate(`/detail/${data.id}`)
             if (method === 'PATCH') navigate(`/detail/${id}`)
+            if (method === 'DELETE') navigate('/')
         } catch (error) {
             console.log(`Failed to perform CRUD operation "${method}" - ${error}`)
         } finally {
@@ -77,36 +79,6 @@ function useGames({
             setDisabledSubmitButton(false)
         }
     }
-
-    async function handleDeleteGame() {
-        setDisabledSubmitButton(true)
-        try {
-            const response = await fetch(`${baseUrl}/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            const data = await response.json()
-            const status = response.status
-
-            console.log('handleDeleteGame data', data)
-            console.log('handleDeleteGame status', status)
-
-            if (!response.ok) {
-                setErrorMessage(`Failed to delete game–${data.message}`)
-                return
-            }
-
-            console.log('Delete game OK', data)
-            navigate('/')
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setDisabledSubmitButton(false)
-        }
-    }
-
 
     useEffect(() => {
         console.log('useGames useEffect fired')
@@ -128,7 +100,6 @@ function useGames({
                     console.log('handleFetchCollection data:', data)
                     console.log('handleFetchCollection status:', status)
 
-                    // setFetchOk(response.ok)
                     if (!response.ok) {
                         setErrorMessage(`Failed to fetch collection - server side error code: ${status}`)
                         return
@@ -150,9 +121,7 @@ function useGames({
     }, [fetchData, gameStatusFilter, id])
 
     return {
-        // fetckOk,
         disabledSubmitButton,
-        handleDeleteGame,
         handleSetDraft,
         gameCollection, errorMessage, isLoading, draft,
         gameStatusFilter, setGameStatusFilter,

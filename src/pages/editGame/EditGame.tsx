@@ -7,7 +7,7 @@ import useGames from "../../hooks/useGames"
 function EditGame() {
     const { id } = useParams()
     const {
-        handleDeleteGame,
+        // handleDeleteGame,
         errorMessage,
         handleSetDraft, draft, disabledSubmitButton,
         handlePerformCrudOperation
@@ -18,13 +18,17 @@ function EditGame() {
         handlePerformCrudOperation({method: 'PATCH', draft: draft, id: id})
     }
 
+    function handleDelete() {
+        handlePerformCrudOperation({method: 'DELETE', id: id})
+    }
+
     return (
         <>
             <h2>Edit</h2>
             <BackToCollectionButton/>
             {errorMessage && <p>{errorMessage}</p>}
             <EditCreateForm draft={draft} handleSetDraft={handleSetDraft} handleSave={handleSubmit} disabledSubmitButton={disabledSubmitButton} submitButtonText="Save changes"/>
-            <button onClick={handleDeleteGame} disabled={disabledSubmitButton}>Delete</button>
+            <button onClick={handleDelete} disabled={disabledSubmitButton}>Delete</button>
         </>
     )
 }
