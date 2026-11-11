@@ -3,17 +3,23 @@ import { useState } from "react"
 import BackToCollectionButton from "../../components/backToCollectionButton/BackToCollectionButton"
 import type { IDraft } from "../../models/draft"
 import EditCreateForm from "../../components/editCreateForm/EditCreateForm"
-import useCrudOperations from "../../hooks/useCrudOperations"
+import useGames from "../../hooks/useGames"
+// import useCrudOperations from "../../hooks/useCrudOperations"
 
 function CreateGame() {
 	// ======
 	// States
 	// ======
+    // const {
+    //     handleCreateGame,
+    //     submitErrorMessage,
+    //     disabledSubmitButton
+    // } = useCrudOperations()
     const {
         handleCreateGame,
         submitErrorMessage,
         disabledSubmitButton
-    } = useCrudOperations()
+    } = useGames()
     const [draft, setDraft] = useState<IDraft>({
         title: '',
         platform: '',

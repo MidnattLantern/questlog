@@ -1,11 +1,11 @@
 export type IStatus = 'playing' | 'completed' | 'want' | 'dropped' | null
 
 export type IGame = {
-    id: string,
+    id?: string,
     title: string,
     platform: string,
     status: IStatus,
-    rating: number,
+    rating: number | null,
     coverUrl: string,
     notes: string
 }

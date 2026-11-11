@@ -1,3 +1,5 @@
+// Wait on deleting this file until useGames have fully immigrated this code properly
+
 import { useEffect, useState } from "react"
 import { baseUrl } from "../config"
 import type { IDraft } from "../models/draft"

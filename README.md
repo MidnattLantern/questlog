@@ -164,6 +164,46 @@ When developing a service that makes API calls, you'll want to see how the page 
 ### Document directory tree structure
 [tree.nathanfriend.io](https://tree.nathanfriend.com/) is a helpful tool. Don't forget to wrap your tree in markdown with backticks!
 
+### Better optional object parameters
+TLDR: add `= {}` at the end of a parameter.
+
+You probably want a function with multiple optional arguments to be used as an object, but TypeScript might complain if you don't pass anything at all:
+```ts
+myFunction({
+  arg1 = null,
+  arg2 = null,
+  arg3 = null
+} : {
+  arg1?: null | string,
+  arg2?: null | string,
+  arg3?: null | string
+}) {
+  /* ... */
+}
+
+myFunction({arg2: 'Alice'}) // no TS complain
+myFunction({}) // no TS complain
+myFunction() // TS complains!
+```
+If you destruct the parameter an `= {}` at the end, you'll be able to pass nothing:
+```ts
+myFunction({
+  arg1 = null,
+  arg2 = null,
+  arg3 = null
+} : {
+  arg1?: null | string,
+  arg2?: null | string,
+  arg3?: null | string
+} = {}) { // added "= {}"
+  /* ... */
+}
+
+myFunction({arg2: 'Alice'}) // no TS complain
+myFunction({}) // no TS complain
+myFunction() // no TS complain
+```
+
 ## Other notes
 ### Package compatibility
 This project use Eslint, though as of writing this (3 November 2026), running the `npm install vite@latest` will serve you a version of TypeScript (TypeScript 7) not currently supported by Eslint. It's important to use TypeScript 6 in the package.json file.

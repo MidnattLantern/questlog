@@ -9,7 +9,7 @@ function GameCollection() {
 	const {
 		gameCollection, errorMessage, isLoading,
 		gameStatusFilter, setGameStatusFilter
-	} = useGames()
+	} = useGames({fetchData: true})
 	// ======
 
 	// ====================
