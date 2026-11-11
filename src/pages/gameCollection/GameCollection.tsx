@@ -3,26 +3,15 @@ import GameCard from "../../components/gameCard/GameCard"
 import useGames from "../../hooks/useGames"
 
 function GameCollection() {
-	// ======
-	// States
-	// ======
 	const {
 		gameCollection, errorMessage, isLoading,
 		gameStatusFilter, setGameStatusFilter
 	} = useGames({fetchData: true})
-	// ======
 
-	// ====================
-	// Functions & handlers
-	// ====================
 	function handleChangeGameStatus(e: React.ChangeEvent) {
 		setGameStatusFilter((e.target as HTMLSelectElement).value)
 	}
-	// ====================
 
-	// ======
-	// Render
-	// ======
 	return (
 		<>
 			<p>gameStatusFilter: {gameStatusFilter}</p>
@@ -37,7 +26,6 @@ function GameCollection() {
 			{gameCollection ? gameCollection.map(game => (<GameCard key={game.id} game={game} preview={true}/>)) : undefined}
 		</>
 	)
-	// ======
 }
 
 export default GameCollection

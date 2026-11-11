@@ -9,7 +9,10 @@ function EditGame() {
 	// States
 	// ======
     const { id } = useParams()
-    const { handlePatchGame, handleDeleteGame, submitErrorMessage, draftErrorMessage, handleSetDraft, fetckOk, draft, disabledSubmitButton } = useGames({id: id, fetchData: true})
+    const { handlePatchGame, handleDeleteGame,
+        // submitErrorMessage, draftErrorMessage,
+        errorMessage,
+        handleSetDraft, fetckOk, draft, disabledSubmitButton } = useGames({id: id, fetchData: true})
     // ======
 
     // ====================
@@ -31,8 +34,7 @@ function EditGame() {
         <>
             <h2>Edit</h2>
             <BackToCollectionButton/>
-            {submitErrorMessage && <p>{submitErrorMessage}</p>}
-            {draftErrorMessage && <p>{draftErrorMessage}</p>}
+            {errorMessage && <p>{errorMessage}</p>}
             {fetckOk && <EditCreateForm draft={draft} handleSetDraft={handleSetDraft} handleSave={handlePatchGame} disabledSubmitButton={disabledSubmitButton} submitButtonText="Save changes"/>}
             <button onClick={handleDeleteGame} disabled={disabledSubmitButton}>Delete</button>
         </>

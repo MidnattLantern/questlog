@@ -12,14 +12,13 @@ function useGames({
     id?: null | string
 } = {}) {
     const navigate = useNavigate()
-    const [submitErrorMessage, setSubmitErrorMessage] = useState<string | null>(null)
-    const [draftErrorMessage, setDraftErrorMessage] = useState<string | null>(null) // consider merging this with submitErrorMessage
+
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [errorMessage, setErrorMessage] = useState<string | null>(null)
     const [fetckOk, setFetchOk] = useState<boolean>(false)
     const [disabledSubmitButton, setDisabledSubmitButton] = useState<boolean>(false)
-    const [errorMessage, setErrorMessage] = useState<string | null>(null)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [gameCollection, setGameCollection] = useState<IGame[] | null>(null)
-    const [draft, setDraft] = useState<IDraft>({ // Also functional for read only
+    const [draft, setDraft] = useState<IDraft>({ // Also functional for single game as read only
         title: '',
         platform: '',
         status: null,
@@ -27,7 +26,6 @@ function useGames({
         coverUrl: '',
         notes: ''
     })
-
     const [gameStatusFilter, setGameStatusFilter] = useState<string>(() => {
         const storage = localStorage.getItem('gameStatusFilter')
         if (!storage) return '' // App might break if nothing in storage isn't addressed and set as empty string
@@ -41,32 +39,39 @@ function useGames({
         else                            setDraft(prev => {return {...prev, [target.name]: target.value}})
     }
 
-    async function handleCreateGame(draft: IDraft) {
+    async function handlePerformCrudOperation({ // currently only works for POST
+        method,
+        draft = null
+    } : {
+        method: 'POST' | 'PATCH' | 'DELETE',
+        draft?: null | IDraft
+    }) {
+        setIsLoading(true)
         setDisabledSubmitButton(true)
-        console.log('handle create game')
         try {
             const response = await fetch(`${baseUrl}`, {
-                method: 'POST',
+                method: method,
                 headers: {'Content-Type': 'application/json'},
+                // body: (draft && method !== 'GET') ? JSON.stringify(draft) : null
                 body: JSON.stringify(draft)
             })
             const data = await response.json()
-            const status = response.status
-            
-            console.log('handleCreateGame data', data)
-            console.log('handleCreateGame status', status)
+            const status = await response.status
 
-            if (status === 201) { // consider response.ok
-                setSubmitErrorMessage(null)
-                navigate(`/detail/${data.id}`)
-            } else if (status === 404) {
-                setSubmitErrorMessage('Failed to create game because of a database server side error–invalid fetch URL')
-            } else {
-                setSubmitErrorMessage(data.message)
+            console.log('handlePerformCrudOperation data', data)
+            console.log('handlePerformCrudOperation status', status)
+
+            setFetchOk(response.ok)
+            if (!response.ok) {
+                setErrorMessage(data.message)
+                return
             }
+
+            if (method === 'POST') navigate(`/detail/${data.id}`)
         } catch (error) {
-            console.error(error)
+            console.log(`Failed to perform CRUD operation "${method}" - ${error}`)
         } finally {
+            setIsLoading(false)
             setDisabledSubmitButton(false)
         }
     }
@@ -87,7 +92,7 @@ function useGames({
             console.log('handlePatchGame status', status)
 
             if (!response.ok) {
-                setSubmitErrorMessage(data.message)
+                setErrorMessage(data.message)
                 return
             }
             navigate(`/detail/${id}`)
@@ -115,7 +120,7 @@ function useGames({
             console.log('handleDeleteGame status', status)
 
             if (!response.ok) {
-                setSubmitErrorMessage(`Failed to delete game–${data.message}`)
+                setErrorMessage(`Failed to delete game–${data.message}`)
                 return
             }
 
@@ -127,6 +132,7 @@ function useGames({
             setDisabledSubmitButton(false)
         }
     }
+
 
     useEffect(() => {
         console.log('useGames useEffect fired')
@@ -148,20 +154,14 @@ function useGames({
                     console.log('handleFetchCollection data:', data)
                     console.log('handleFetchCollection status:', status)
 
-                    if (status === 200) {
-                        if (id) { // if id is passed, that means the hook should handle a single game
-                            setDraft(data)
-                            setFetchOk(true)
-                        } else {
-                            setGameCollection(data)
-                        }
-                    } else if (status === 404) {
-                        setDraftErrorMessage(data.message)
-                    } else {
-                        // These two might need to be merged
+                    setFetchOk(response.ok)
+                    if (!response.ok) {
                         setErrorMessage(`Failed to fetch collection - server side error code: ${status}`)
-                        setDraftErrorMessage(`Failed to load game–${data.message}`)
+                        return
                     }
+
+                    if (id) setDraft(data) // if id is passed, that means the hook should handle a single game
+                    else setGameCollection(data)
                 } catch (error) {
                     console.error('error:', error)
                     return
@@ -176,10 +176,11 @@ function useGames({
     }, [fetchData, gameStatusFilter, id])
 
     return {
-        submitErrorMessage, draftErrorMessage, fetckOk, disabledSubmitButton,
-        handleDeleteGame, handlePatchGame, handleCreateGame, handleSetDraft,
+        fetckOk, disabledSubmitButton,
+        handleDeleteGame, handlePatchGame, handleSetDraft,
         gameCollection, errorMessage, isLoading, draft,
-        gameStatusFilter, setGameStatusFilter
+        gameStatusFilter, setGameStatusFilter,
+        handlePerformCrudOperation
     }
 }
 
