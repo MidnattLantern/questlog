@@ -1,4 +1,232 @@
-.wrapper {
+@keyframes pulse-focus {
+    0% {border-color: var(--color-primary); fill: var(--color-primary); color: var(--color-primary);}
+    50% {border-color: var(--color-secondary); fill: var(--color-secondary); color: var(--color-secondary);}
+    100% {border-color: var(--color-primary); fill: var(--color-primary); color: var(--color-primary);}
+}
+
+@keyframes nav-slide-in {
+    from {left: -100vw;}
+    to {left: 0;}
+}
+
+@keyframes nav-slide-out {
+    from {left: 0;}
+    to {left: -100vw;}
+}
+
+.container {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: var(--common-gap);
+    padding-left: 0;
+    gap: var(--common-gap);
+    z-index: 4;
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: absolute;
+        bottom: calc(var(--toggle-nav-bar-button-height) + (var(--common-gap) * 2));
+        border: 2px dotted var(--color-body-transparent);
+        border-left: none;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        background-color: var(--color-surface-transparent);
+        backdrop-filter: blur(2px);
+        box-shadow: 0 0 15px var(--color-surface-transparent);
+        width: calc(100% - var(--common-gap));
+        min-height: fit-content;
+        padding: var(--common-gap);
+        gap: calc(var(--common-text-gap) * 2);
+        pointer-events: all;
+
+        a {
+            width: 100%;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-shadow: 0 2px 2px var(--color-surface);
+        }
+        a:hover,
+        a:focus {
+            outline: none;
+            span {
+                animation: pulse-focus 5s infinite;
+            }
+
+            .logoAppearance {
+                animation: pulse-focus 5s infinite;
+            }
+        }
+    }
+}
+
+.container nav:focus-within, // nesting inside the .container breaks nav-slide-in animation
+.navIsVisible {
+    left: 0;
+    animation: nav-slide-in 0.5s;
+    pointer-events: all;
+}
+
+.logoAppearance {
+    width: 100px;
+    fill: var(--color-primary);
+}
+
+.logoWideViewPort {
+    position: absolute;
+    top: var(--common-gap);
+    padding: var(--common-gap);
+    max-width: calc(100% - (var(--common-gap) * 2));
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.containerNoEvents {
+    pointer-events: none;
+}
+
+.logoA11y {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.toggleNavBarButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 220px;
+    height: var(--toggle-nav-bar-button-height);
+    border-radius: 0;
+    border-top-right-radius: var(--pillify);
+    border-bottom-right-radius: var(--pillify);
+    border: 2px solid var(--color-body-transparent);
+    border-left: none;
+    background-color: var(--color-surface-transparent);
+    backdrop-filter: blur(2px);
+    box-shadow: 0 0 15px var(--color-surface-transparent);
+    transition: all 0.5s ease;
+    pointer-events: all;
+}
+
+.roundArrow {
+    fill: var(--color-body);
+    width: calc(var(--toggle-nav-bar-button-height) - (var(--common-gap) * 2));
+    height: calc(var(--toggle-nav-bar-button-height) - (var(--common-gap) * 2));
+    margin-right: calc(var(--common-gap) - 5px);
+    transition: all 0.5s ease;
+}
+
+.roundArrowLeft {
+    transform: rotate(180deg);
+    fill: var(--color-primary);
+}
+
+.toggleNavBarButton:focus,
+.toggleNavBarButton:hover {
+    animation: pulse-focus 5s infinite;
+    cursor: pointer;
+    outline: none;
+
+    .roundArrow {
+        animation: pulse-focus 5s infinite;
+    }
+
+    .logoAppearance {
+        animation: pulse-focus 5s infinite;
+    }
+}
+
+.expandedNavBarButton {
+    width: 100%;
+}
+
+.navIsHidden {
+    left: -100vw;
+    animation: nav-slide-out 0.5s;
+}
+
+.newTabIcon {
+    fill: var(--color-body);
+    width: 1.1rem;
+    height: auto;
+    margin-left: 1rem;
+}
+
+.moreByLink {
+    border-top: 1px dotted var(--color-body-transparent);
+    padding-top: var(--common-text-gap);
+
+    &:hover,
+    &:focus {
+        .newTabIcon {
+            animation: pulse-focus 5s infinite;
+        }
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .logoWideViewPort {
+        visibility: visible;
+        pointer-events: all;
+    }
+
+    .logoAppearance {
+        width: 100%;
+    }
+
+    .toggleNavBarButton {
+        pointer-events: none;
+        visibility: hidden;
+    }
+
+    .navIsHidden {
+        left: 0;
+        animation: nav-slide-in 0.5s;
+    }
+
+    .navIsVisible {
+        left: 0;
+        animation: nav-slide-in 0.5s;
+    }
+
+    .containerNoEvents {
+        pointer-events: none;
+    }
+
+    .container nav {
+        top: 0;
+        width: calc(var(--sidebar-width));
+        height: 100%;
+        border-top: 0;
+        border-bottom: 0;
+        border-radius: 0;
+        pointer-events: all;
+        transition: all 0.5s ease;
+
+        a {
+            font-size: 1.5rem;
+        }
+    }
+
+    .moreByLink {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .newTabIcon {
+        margin-left: 0;
+    }
 }

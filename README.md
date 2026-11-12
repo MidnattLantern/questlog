@@ -70,7 +70,7 @@ Questlog uses Vite + React + TypeScript. Prerequisites that your machine has Nod
 Prerequisites that your github is linked to your Vercel's team and that the codebase has a vercel.json file included in root directory. Under Add New / Project, select the repository name "questlog". If access is limited, search the name, click "Configure GitHub App", and give Vercel access permissions from there. Since this is a project created with Vite, "Application Preset" should be set to "Vite". Before clicking "Deploy", ensure there are no errors in the codebase. Any error as mundane as "'myUnusedComponent' is declared but its value is never read." will cause a deployment failure. Patch any such errors and push to repo. Note: if you've already made an initial deployment, Vercel will try again automatically. Remember that Vercel will make a new deployment for each git push. The "-psi-plum" extension is speculated to exist as there are likely other Questlog projects deployed on Vercel.
 
 ## Design
-Since this project is similar to [Have You Played](https://github.com/MidnattLantern/haveyouplayed), it borrows the same identity and wireframes.
+Since this project is very similar to [Haveyouplayed](https://github.com/MidnattLantern/haveyouplayed), it borrows the same visual identity and wireframes for reference.
 
 Vector icons and some assets are designed by the developer. Some assets borrowed from other sources can be found under [Acknowledgements](#acknowledgements)
 
@@ -263,4 +263,5 @@ LLM's including Claude, DuckDuckGo's AI overview and Google Gemini AI overview m
 That said, I remain committed to minimize my use of artificial intelligence. No line of code nor content, including assets were generated for this project.
 
 ## Acknowledgements
-[Render the same element N ammount of times](https://www.youtube.com/shorts/tNGmm7hbcmM)
+Font theme: Kanit - [Google Fonts](https://fonts.google.com/specimen/Kanit?query=kanit)
+Render the same element N ammount of times - [Youtube](https://www.youtube.com/shorts/tNGmm7hbcmM)

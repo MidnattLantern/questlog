@@ -4,12 +4,13 @@ import NavBar from "../components/navBar/NavBar"
 function RootLayout() {
     return (
         <>
-            <header>
-                <NavBar/>
-            </header>
-            <main>
+            <NavBar/>
+            <main tabIndex={0} id='navBarTabDestination'>
                 <Outlet/>
             </main>
+            <footer>
+
+            </footer>
         </>
     )
 }
