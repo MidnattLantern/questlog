@@ -1,9 +1,13 @@
 # Questlog
+[questlog-psi-plum.vercel.app](https://questlog-psi-plum.vercel.app/)
+
 Developed by Alma Isaksson 2026
 
 ## Table of contents
 - [About](#about)
+- [Tech stack](#tech-stack)
 - [Packages](#packages)
+- [Local IDE guide](#local-ide-guide)
 - [Deployment](#deployment)
 - [Codebase architecture](#codebase-architecture)
 - [Technical debt](#technical-debt)
@@ -12,11 +16,19 @@ Developed by Alma Isaksson 2026
 - [Other notes](#other-notes)
 
 ## About
-I love video games, so it may not come as a surprise that I struggle with the infamous backlog issue. Meanwhile, you should pride yourself with the progress you've acomplished by tracking games you've completed. Questlog is not only a project as part of vocational training, it's also a personal backlog tracker, wishlist, and hall of boasting. In Questlog, you can document your games, your status status, edit or delete, and filter by status.
+I love video games, so it may not come as a surprise that I struggle with the infamous backlog issue. Meanwhile, you should pride yourself with the progress you've acomplished by tracking games you've completed. Questlog is not only a project as part of vocational training–it's also a personal backlog tracker, wishlist, and hall of boasting. In Questlog, you can document your games, your status status, edit or delete, and filter by status.
 
-This CRUD page is a proof of concept and does not authorize the user. Any visitor may alter any content, so the person the page represent is play pretend (Foby Tox). Terms and conditions: You may perform any CRUD operation, and you aggree that another user may alter your content any time.
+This CRUD page is a proof of concept and does not authorize the user. Any visitor may alter any content, so the person the page represent is play pretend (Foby Tox). Terms and conditions: You may perform any CRUD operation and you aggree that another user may alter your content any time.
 
 Questlog involve React functionality, such as useState, useEffect, passing props across parents and children, developing reusable components, using the Node package React Router to perform routing (using "data mode"), and using custom hooks to store states and perform API CRUD actions. Hopefully this holds the standards for a merit "VG", but delivering a functional and passable product is good enough at the end of the day.
+
+## Tech stack
+- HTML
+- CSS & SCSS
+- JavaScript & TypeScript
+- Vite
+- Github
+- Vercel
 
 ## Packages
 ### SASS
@@ -47,8 +59,11 @@ Questlog use the "Data mode", meaning each route is declared at a centralized se
 
 The scope of Questlog is small, but if you ever need to nest what content should be displayed under whatever route as parent, include the `<Outlet/>` component.
 
+## Local IDE guide
+Questlog uses Vite + React + TypeScript. Prerequisites that your machine has Node installed. Simply make sure you're at the same directory level as "package.json", you can check your directory level by running `ls` in the terminal. If you see "package.json" listed, you may run `npm install`. This is only neccessary once or until packages are either added or updated. To run the web-app in localhost, run `npm run dev`.
+
 ## Deployment
-Prerequisites that your github is linked to your Vercel's team and that the codebase has a vercel.json file included in root directory. Under Add New / Project, select the repository name "haveyouplayed". If access is limited, search the name, click "Configure GitHub App", and give Vercel access permissions from there. Since this is a project created with Vite, "Application Preset" should be set to "Vite". Before clicking "Deploy", ensure there are no errors in the codebase. Any error as mundane as "'myUnusedComponent' is declared but its value is never read." will cause a deployment failure. Patch any such errors and push to repo. Note: if you've already made an initial deployment, Vercel will try again automatically. Remember that Vercel will make a new deployment for each git push.
+Prerequisites that your github is linked to your Vercel's team and that the codebase has a vercel.json file included in root directory. Under Add New / Project, select the repository name "questlog". If access is limited, search the name, click "Configure GitHub App", and give Vercel access permissions from there. Since this is a project created with Vite, "Application Preset" should be set to "Vite". Before clicking "Deploy", ensure there are no errors in the codebase. Any error as mundane as "'myUnusedComponent' is declared but its value is never read." will cause a deployment failure. Patch any such errors and push to repo. Note: if you've already made an initial deployment, Vercel will try again automatically. Remember that Vercel will make a new deployment for each git push. The "-psi-plum" extension is speculated to exist as there are likely other Questlog projects deployed on Vercel.
 
 ## Codebase architecture
 ### Modular styling
@@ -95,7 +110,7 @@ src
             ├── SomeComponent2ForPage3.tsx
             └── SomeComponent3ForPage3.tsx
 ```
-Components of the ladder exists so that tsx files may be clean with only one component renderer function, while they don't fit inside the componetns at src level.
+Components of the ladder exists so that tsx files may be clean with only one component renderer function—while they don't fit inside the componetns at src level.
 ```tsx
 // Same tsx file – this is messy
 
@@ -232,3 +247,8 @@ function handleSomething({myFunction}: {() => void}) {
 
 }
 ```
+
+## AI disclosure
+LLM's including Claude, DuckDuckGo's AI overview and Google Gemini AI overview may have been used as supplementary document look-up tools, to clarify gaps where forums and traditional docs fail to explain niché details and gotchas. An analogy is using a magnet to find a needle in a haystack where the LLM is the magnet. Any function or gimmick provided by learning material, forums or quick solution generated by any LLM were studied and implimented in a way I could own and understand.
+
+That said, I remain committed to minimize my use of artificial intelligence. No line of code nor content, including assets were generated for this project.
