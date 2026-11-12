@@ -9,6 +9,7 @@ Developed by Alma Isaksson 2026
 - [Packages](#packages)
 - [Local IDE guide](#local-ide-guide)
 - [Deployment](#deployment)
+- [Design](#design)
 - [Codebase architecture](#codebase-architecture)
 - [Technical debt](#technical-debt)
 - [Future features](#future-features)
@@ -64,6 +65,9 @@ Questlog uses Vite + React + TypeScript. Prerequisites that your machine has Nod
 
 ## Deployment
 Prerequisites that your github is linked to your Vercel's team and that the codebase has a vercel.json file included in root directory. Under Add New / Project, select the repository name "questlog". If access is limited, search the name, click "Configure GitHub App", and give Vercel access permissions from there. Since this is a project created with Vite, "Application Preset" should be set to "Vite". Before clicking "Deploy", ensure there are no errors in the codebase. Any error as mundane as "'myUnusedComponent' is declared but its value is never read." will cause a deployment failure. Patch any such errors and push to repo. Note: if you've already made an initial deployment, Vercel will try again automatically. Remember that Vercel will make a new deployment for each git push. The "-psi-plum" extension is speculated to exist as there are likely other Questlog projects deployed on Vercel.
+
+## Design
+Since this project is similar to [Have You Played](https://github.com/MidnattLantern/haveyouplayed), it borrows the same identity and wireframes.
 
 ## Codebase architecture
 ### Modular styling
@@ -182,7 +186,7 @@ EditGame.tsx has two submit buttons: patch and delete. During a CRUD request, bo
 Ideas how this project could potentially be improved
 
 ### Storing reusable fetched data across pages and save on API traffic
-For the purpose of this project, a GET API call is made every time you enter a page that needs that data, including filtering the collection. To save on traffic, one could reduce on API fetch requests by storing the collection from one single call–with a state, localstorage/ sessionstorage, or a mix of both. Then, actions such as filtering or using one object (for edit) would be handled via client JavaScript, since there's enough information provided by the backend to work with. Note this assumes the data isn't sensitive, sometimes more api calls are neccessary for cyber-security.
+For the purpose of this project, a GET API call is made every time you enter a page that needs that data, including filtering the collection. To save on traffic, one could reduce on API fetch requests by storing the collection from one single call–with a state, localstorage/ sessionstorage, or a mix of both. Then, actions such as filtering or using one object (for edit) would be handled via client JavaScript, since there's enough information provided by the backend to work with. Note this assumes the data isn't sensitive, sometimes more api calls are neccessary for cyber-security; as well as assuming potentially unused data isn't heavy.
 
 ## Helpful notes
 ### Emulate throttling (Firefox)

@@ -1,0 +1,18 @@
+// non modular stylesheets are for svg:s and index only
+
+#wallpaper-placeholder__surface {
+    fill: var(--color-surface);
+}
+
+#wallpaper-placeholder__surface-decoration {
+    fill: var(--color-invisible);
+}
+
+#wallpaper-placeholder__text {
+    font-family: var(--font-theme);
+    text-transform: uppercase;
+    font-style: italic;
+    font-size: 3.4rem;
+    font-weight: 700;
+    fill: var(--color-body-transparent);
+}

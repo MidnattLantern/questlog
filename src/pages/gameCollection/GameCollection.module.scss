@@ -1,0 +1,9 @@
+.container {
+    margin: var(--common-gap);
+}
+
+.collection {
+    display: flex;
+    flex-direction: column;
+    gap: var(--common-gap);
+}

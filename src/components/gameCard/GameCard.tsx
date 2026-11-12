@@ -1,25 +1,39 @@
 import Styles from "./GameCard.module.scss"
+import "./wallpaper-placeholder.scss"
 import { NavLink } from "react-router"
 import type { IGame } from "../../models/game"
+import WallpaperPlaceholder from "../../assets/wallpaper-placeholder.svg?react"
 
 function GameCard({game, preview = false}: {game: IGame, preview?: boolean}) {
 
     return (
         <div className={Styles.container}>
             <article className={Styles.gameCardContainer}>
-                {game.coverUrl && <img src={game.coverUrl} width={300} alt={`Cover image for ${game.title}`} className={Styles.wallpaperAsHero}/>}
+                {game.coverUrl ? (
+                    <img src={game.coverUrl} width={300} alt={`Grayscaled and darkened version of ${game.title} wallpaper`} className={Styles.wallpaperAsBackground}/>
+                ) : (
+                    <WallpaperPlaceholder className={Styles.wallpaperAsBackground}/>
+                )}
+                {game.coverUrl ? (
+                    <img src={game.coverUrl} width={300} alt={`Cover image for ${game.title}`} className={Styles.wallpaperAsHero}/>
+                ) : (
+                    <WallpaperPlaceholder className={Styles.wallpaperAsHero}/>
+                )}
                 <div className={Styles.titleAndStatus}>
                     <h3>{game.title}</h3>
-                    <p>{game.status}</p>
+                    {game.status && <p>{game.status}</p>}
                 </div>
-                {!preview && <>
-                    <p>{game.notes}</p>
-                    <p>Platform: {game.platform}</p>
-                    <p>Your rating: {game.rating}</p>
-                </>}
 
-                {preview ? <NavLink to={`/detail/${game.id}`}>Details</NavLink> : <NavLink to={`/edit/${game.id}`}>Edit</NavLink>}
+                {!preview && <div className={Styles.detailedNotes}>
+                    <p className={Styles.notes}>{game.notes}</p>
+                    <div className={Styles.platformAndRating}>
+                        <p>{game.platform}</p>
+                        <p>{game.rating}</p>
+                    </div>
+                </div>}
+
             </article>
+            {preview ? <NavLink to={`/detail/${game.id}`} className={Styles.OpenButton}>Details</NavLink> : <NavLink to={`/edit/${game.id}`} className={Styles.OpenButton}>Edit</NavLink>}
         </div>
     )
 }
