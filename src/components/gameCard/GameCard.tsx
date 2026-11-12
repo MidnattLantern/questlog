@@ -1,8 +1,10 @@
 import Styles from "./GameCard.module.scss"
 import "./wallpaper-placeholder.scss"
+import "./rating-icon.scss"
 import { NavLink } from "react-router"
 import type { IGame } from "../../models/game"
 import WallpaperPlaceholder from "../../assets/wallpaper-placeholder.svg?react"
+import RatingIcon from "../../assets/rating-icon.svg?react"
 
 function GameCard({game, preview = false}: {game: IGame, preview?: boolean}) {
 
@@ -28,7 +30,11 @@ function GameCard({game, preview = false}: {game: IGame, preview?: boolean}) {
                     <p className={Styles.notes}>{game.notes}</p>
                     <div className={Styles.platformAndRating}>
                         <p>{game.platform}</p>
-                        <p>{game.rating}</p>
+                        <div aria-label={`Game is rated ${game.rating} out of 5`}>
+                            {Array.from({ length: Number(game.rating) }).map((_, index) => (
+                                <RatingIcon key={index} className={Styles.ratingIcon}/>
+                            ))}
+                        </div>
                     </div>
                 </div>}
 
