@@ -4,6 +4,7 @@ Developed by Alma Isaksson 2026
 ## Table of contents
 - [About](#about)
 - [Packages](#packages)
+- [Deployment](#deployment)
 - [Codebase architecture](#codebase-architecture)
 - [Technical debt](#technical-debt)
 - [Future features](#future-features)
@@ -45,6 +46,9 @@ Enable react to behave like a multi-page application, meaning different content 
 Questlog use the "Data mode", meaning each route is declared at a centralized section, namely the App.tsx file.
 
 The scope of Questlog is small, but if you ever need to nest what content should be displayed under whatever route as parent, include the `<Outlet/>` component.
+
+## Deployment
+Prerequisites that your github is linked to your Vercel's team and that the codebase has a vercel.json file included in root directory. Under Add New / Project, select the repository name "haveyouplayed". If access is limited, search the name, click "Configure GitHub App", and give Vercel access permissions from there. Since this is a project created with Vite, "Application Preset" should be set to "Vite". Before clicking "Deploy", ensure there are no errors in the codebase. Any error as mundane as "'myUnusedComponent' is declared but its value is never read." will cause a deployment failure. Patch any such errors and push to repo. Note: if you've already made an initial deployment, Vercel will try again automatically. Remember that Vercel will make a new deployment for each git push.
 
 ## Codebase architecture
 ### Modular styling
