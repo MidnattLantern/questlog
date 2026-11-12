@@ -1,4 +1,3 @@
-import './App.scss'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import RootLayout from './pages/RootLayout'
 import PageNotFound from './pages/pageNotFound/PageNotFound'

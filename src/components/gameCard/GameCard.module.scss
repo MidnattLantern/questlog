@@ -1,0 +1,56 @@
+.container {
+    position: relative;
+    background-color: var(--color-secondary);
+    padding: calc(var(--common-gap) - 5px);
+    transition: all 0.5s ease;
+}
+
+.gameCardContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: calc(var(--common-gap) / 2); // concentric border radius
+    border-radius: var(--common-gap);
+    height: 100%;
+    background-color: var(--color-surface);
+
+    h3, h4, p, ul {
+        position: relative;
+        z-index: 1;
+        text-shadow: 0 2px 2px var(--color-surface);
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        color: var(--color-primary);
+    }
+}
+
+.titleAndStatus {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: var(--common-text-gap);
+    margin-top: var(--common-gap);
+
+    p {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 6.5rem;
+        padding: var(--common-gap);
+        border-left: 1px dashed var(--color-primary);
+        text-transform: uppercase;
+    }
+}
+
+.wallpaperAsHero {
+    position: relative;
+    width: 100%;
+    object-fit: cover;
+    border-radius: calc(var(--common-gap) / 2); // concentric border radius
+    z-index: 2;
+}
