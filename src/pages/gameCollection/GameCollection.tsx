@@ -34,7 +34,6 @@ function GameCollection() {
 					<option key={option} value={option}>{option}</option>
 				))}
 			</select>
-			{errorMessage && <p>{errorMessage}</p>}
 			<div className={Styles.collection}>
 				{isLoading ? (
 					<Loading/>

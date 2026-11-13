@@ -10,3 +10,7 @@
     align-items: center;
     min-height: inherit;
 }
+
+.roomForErrorMessage {
+    margin-top: var(--error-message-height);
+}

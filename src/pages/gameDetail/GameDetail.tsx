@@ -4,27 +4,32 @@ import BackToCollectionButton from "../../components/backToCollectionButton/Back
 import GameCard from "../../components/gameCard/GameCard"
 import useGames from "../../hooks/useGames"
 import Loading from "../../components/loading/Loading"
+import ErrorMessage from "../../components/errorMessage/ErrorMessage"
 
 function GameDetail() {
     const { id } = useParams()
     const {
-        errorMessage, draft, isLoading // Reminder: "draft" also serves as read-only data for a single object
+        errorMessage, draft, isLoading, setErrorMessage // Reminder: "draft" also serves as read-only data for a single object
     } = useGames({id: id, fetchData: true})
+
+    function handleDismissError() {
+        setErrorMessage(null)
+    }
 
     window.scrollTo(0, 0);
 
     return (
-        <div className={Styles.container}>
+        <div className={`${Styles.container} ${errorMessage ? Styles.roomForErrorMessage : undefined}`}>
             <BackToCollectionButton/>
             <h2>Details</h2>
             <div className={Styles.content}>
-                {errorMessage && <p>{errorMessage}</p>}
                 {isLoading ? (
                     <Loading/>
                 ) : (
                     draft && <GameCard game={draft}/>
                 )}
             </div>
+            {errorMessage && <ErrorMessage errorMessage={errorMessage} handleDismissError={handleDismissError}/>}
         </div>
     )
 }

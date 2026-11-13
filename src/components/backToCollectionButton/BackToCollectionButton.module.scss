@@ -1,12 +1,28 @@
 .backButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: center;
     text-decoration: underline;
     font-weight: 600;
 
-    &::before {
-        content: "<- ";
+    .backIcon {
+        fill: var(--color-body);
+        width: auto;
+        height: 0.8rem;
+        margin-right: 0.5rem;
     }
 
-    &:hover {
-        color: var(--color-primary);
+    &:hover,
+    &:focus {
+        outline: none;
+
+        span {
+            color: var(--color-primary);
+            text-decoration: underline; // declared again or it wil remain white
+        }
+        .backIcon {
+            fill: var(--color-primary);
+        }
     }
 }

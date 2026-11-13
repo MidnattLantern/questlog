@@ -5,12 +5,13 @@ import EditCreateForm from "../../components/editCreateForm/EditCreateForm"
 import useGames from "../../hooks/useGames"
 import Loading from "../../components/loading/Loading"
 import { useState } from "react"
+import ErrorMessage from "../../components/errorMessage/ErrorMessage"
 
 function EditGame() {
     const { id } = useParams()
     const {
         errorMessage, draft, isLoading, disabledSubmitButton,
-        handlePerformCrudOperation, handleSetDraft
+        handlePerformCrudOperation, handleSetDraft, setErrorMessage
     } = useGames({id: id, fetchData: true})
     const [confirmDelete, setConfirmDelete] = useState<boolean>(false)
 
@@ -32,11 +33,14 @@ function EditGame() {
         setConfirmDelete(false)
     }
 
+    function handleDismissError() {
+        setErrorMessage(null)
+    }
+
     return (
-        <div className={Styles.container}>
+        <div className={`${Styles.container} ${errorMessage ? Styles.roomForErrorMessage : undefined}`}>
             <BackToCollectionButton/>
             <h2>Edit</h2>
-            {errorMessage && <p>{errorMessage}</p>}
             {isLoading ? (
                 <Loading/>
             ) : (
@@ -60,6 +64,7 @@ function EditGame() {
                     )}
                 </>
             )}
+            {errorMessage && <ErrorMessage errorMessage={errorMessage} handleDismissError={handleDismissError}/>}
         </div>
     )
 }

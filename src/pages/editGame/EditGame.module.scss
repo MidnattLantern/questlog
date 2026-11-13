@@ -3,3 +3,7 @@
     flex-direction: column;
     width: 100%;
 }
+
+.roomForErrorMessage {
+    margin-top: var(--error-message-height);
+}
