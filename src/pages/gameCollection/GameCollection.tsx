@@ -27,6 +27,7 @@ function GameCollection() {
 
 	return (
 		<div className={Styles.container}>
+			<h2>Collection</h2>
 			<select defaultValue={gameStatusFilter ? gameStatusFilter : ''} onChange={handleChangeGameStatus}>
 				<option value={''}>All</option>
 				{gameStatusOptions.map(option => (

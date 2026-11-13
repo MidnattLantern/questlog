@@ -1,3 +1,4 @@
+import Styles from "./GameDetail.module.scss"
 import { useParams } from "react-router"
 import BackToCollectionButton from "../../components/backToCollectionButton/BackToCollectionButton"
 import GameCard from "../../components/gameCard/GameCard"
@@ -10,17 +11,21 @@ function GameDetail() {
         errorMessage, draft, isLoading // Reminder: "draft" also serves as read-only data for a single object
     } = useGames({id: id, fetchData: true})
 
+    window.scrollTo(0, 0);
+
     return (
-        <>
-            <h2>Game detail</h2>
-            <BackToCollectionButton/>
-            {errorMessage && <p>{errorMessage}</p>}
-            {isLoading ? (
-                <Loading/>
-            ) : (
-                draft && <GameCard game={draft}/>
-            )}
-        </>
+        <div className={Styles.container}>
+            <h2>Details</h2>
+            <div className={Styles.content}>
+                <BackToCollectionButton/>
+                {errorMessage && <p>{errorMessage}</p>}
+                {isLoading ? (
+                    <Loading/>
+                ) : (
+                    draft && <GameCard game={draft}/>
+                )}
+            </div>
+        </div>
     )
 }
 

@@ -14,6 +14,13 @@
     cursor: pointer;
 }
 
+.containerForDetail,
+.containerForDetail:hover,
+.containerForDetail:focus-within,
+.containerForDetail:focus {
+    background-color: var(--color-invisible);
+}
+
 .gameCardContainer {
     position: relative;
     display: flex;

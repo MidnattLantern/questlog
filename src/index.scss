@@ -20,6 +20,7 @@
 	--common-text-gap: 1.0rem;
 	--toggle-nav-bar-button-height: 70px;
 	--filter-height: 40px;
+	--footer-height: 200px;
 
 	box-sizing: border-box;
 	scroll-behavior: smooth;
@@ -49,7 +50,7 @@ main {
 	margin-top: var(--common-gap);
 	width: calc(100% - var(--common-gap));
 	max-width: 600px;
-	min-height: 100vh;
+	min-height: calc(100vh - var(--footer-height) - var(--common-gap));
 }
 
 p,
@@ -76,7 +77,10 @@ h1 {
 }
 
 h2 {
-	border-top: 1px dotted var(--color-primary-transparent);
+	width: 100%;
+	margin-top: var(--common-gap);
+	text-align: center;
+	text-transform: uppercase;
 }
 
 input[type="checkbox"] {
@@ -91,6 +95,7 @@ footer {
 	justify-content: center;
 	align-items: center;
 	width: 100%;
+	height: var(--footer-height);
 	padding: var(--common-gap);
 	padding-bottom: 100px; // space for open / close navbar at phone
 	background-color: var(--color-primary-transparent);

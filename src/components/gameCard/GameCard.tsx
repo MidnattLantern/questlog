@@ -9,7 +9,7 @@ import RatingIcon from "../../assets/rating-icon.svg?react"
 function GameCard({game, preview = false}: {game: IGame, preview?: boolean}) {
 
     return (
-        <div className={Styles.container}>
+        <div className={`${Styles.container} ${!preview && Styles.containerForDetail}`}>
             <article className={Styles.gameCardContainer}>
                 {game.coverUrl ? (
                     <img src={game.coverUrl} width={300} alt={`Grayscaled and darkened version of ${game.title} wallpaper`} className={Styles.wallpaperAsBackground}/>

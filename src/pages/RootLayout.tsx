@@ -9,7 +9,7 @@ function RootLayout() {
                 <Outlet/>
             </main>
             <footer>
-
+                <p>Developed by Alma Isaksson – 2026</p>
             </footer>
         </>
     )

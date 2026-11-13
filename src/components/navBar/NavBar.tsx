@@ -34,7 +34,7 @@ function NavBar() {
                     <span className={Styles.logoA11y}>Questlog</span>
                 </NavLink>
 
-                <NavLink to='/'><span>Home</span></NavLink>
+                <NavLink to='/'><span>Collection</span></NavLink>
                 <NavLink to='create'><span>Create</span></NavLink>
                 <a href="https://midnattlantern.github.io/portfolio/" target="_blank" className={Styles.moreByLink}>
                     <span>More by </span>
