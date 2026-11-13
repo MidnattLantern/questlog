@@ -2,6 +2,7 @@
 * {
 	--color-surface: rgb(20, 20, 20);
 	--color-surface-transparent: rgba(20, 20, 20, 0.6);
+	--color-surface-accent: rgb(35, 35, 35);
 	--color-body: rgb(210, 210, 210);
 	--color-body-transparent: rgba(210, 210, 210, 0.5);
 	--color-pure-white: #fff;
@@ -20,6 +21,7 @@
 	--common-text-gap: 1.0rem;
 	--toggle-nav-bar-button-height: 70px;
 	--filter-height: 40px;
+	--inputfield-min-height: 40px;
 	--footer-height: 200px;
 
 	box-sizing: border-box;
@@ -63,6 +65,8 @@ a,
 li,
 input,
 textarea,
+legend,
+img, // to make alt text visible on black surface
 summary {
 	margin: 0;
 	color: var(--color-body);

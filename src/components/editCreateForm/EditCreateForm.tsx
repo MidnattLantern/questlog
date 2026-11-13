@@ -1,5 +1,6 @@
-import type { IDraft } from "../../models/draft"
 import Styles from "./EditCreateForm.module.scss"
+import type { IDraft } from "../../models/draft"
+import WallpaperPlaceholder from "../../assets/wallpaper-placeholder.svg?react" // Styles are aleady established in gameCard
 
 function EditCreateForm({
     draft,
@@ -19,12 +20,16 @@ function EditCreateForm({
 
     return (
         <form className={Styles.form} onSubmit={handleSave}>
-            <label>
-                <span>Title</span>
-                <input type="text" name="title" value={draft.title} onChange={handleSetDraft}/>
-            </label>
 
-            <fieldset>
+            <fieldset className={Styles.mandatory}>
+                <legend>Title</legend>
+                <label>
+                    <span>Title</span>
+                    <input type="text" name="title" value={draft.title} onChange={handleSetDraft}/>
+                </label>
+            </fieldset>
+
+            <fieldset className={Styles.mandatory}>
                 <legend>Platform</legend>
                 <label>
                     <span>Presets</span>
@@ -57,6 +62,15 @@ function EditCreateForm({
             </fieldset>
 
             <fieldset>
+                <legend>Cover image</legend>
+                <label>
+                    <span>"URL" link</span>
+                    <input type="text" name="coverUrl" value={draft.coverUrl} onChange={handleSetDraft}/>
+                </label>
+                {draft.coverUrl ? <img src={draft.coverUrl} alt="Image preview" width={300} className={Styles.imagePreview}/> : <WallpaperPlaceholder className={Styles.imagePreview}/>}
+            </fieldset>
+
+            <fieldset className={Styles.radioFieldset}>
                 <legend>Stauts</legend>
                 <label>
                     <input type="radio" name="status" value={'playing'} checked={draft.status === 'playing'} onChange={handleSetDraft}/>
@@ -76,7 +90,7 @@ function EditCreateForm({
                 </label>
             </fieldset>
 
-            <fieldset>
+            <fieldset className={Styles.radioFieldset}>
                 <legend>Rating</legend>
                 <label>
                     <input type="radio" name="rating" value={1} checked={draft.rating === 1} onChange={handleSetDraft}/>
@@ -100,16 +114,13 @@ function EditCreateForm({
                 </label>
             </fieldset>
 
-            <label>
-                <span>Cover image "URL" link</span>
-                <input type="text" name="coverUrl" value={draft.coverUrl} onChange={handleSetDraft}/>
-            </label>
-            {draft.coverUrl ? <img src={draft.coverUrl} alt="Image preview" width={300}/> : <p>Image Preview</p>}
-
-            <label>
-                <span>Notes</span>
-                <textarea value={draft.notes} name="notes" rows={5} onChange={handleSetDraft}/>
-            </label>
+            <fieldset>
+                <legend>Notes</legend>
+                <label>
+                    <span>Notes</span>
+                    <textarea value={draft.notes} name="notes" rows={5} onChange={handleSetDraft}/>
+                </label>
+            </fieldset>
 
             <input type="submit" value={disabledSubmitButton ? onSubmitButtonText : submitButtonText} disabled={disabledSubmitButton}/>
         </form>
