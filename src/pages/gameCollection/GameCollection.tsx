@@ -7,7 +7,7 @@ import Loading from "../../components/loading/Loading"
 
 function EmptyCollection() {
 	return (
-		<div>
+		<div className={Styles.emptyCollectionContainer}>
 			<p>Your questlog is empty</p>
 			<NavLink to='create'>Create your first game</NavLink>
 		</div>

@@ -19,7 +19,7 @@
 	--common-gap: 15px;
 	--common-text-gap: 1.0rem;
 	--toggle-nav-bar-button-height: 70px;
-	--filter-summary-height: 40px;
+	--filter-height: 40px;
 
 	box-sizing: border-box;
 	scroll-behavior: smooth;
@@ -42,8 +42,14 @@ body {
 }
 
 main {
-	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: baseline;
+	align-items: center;
+	margin-top: var(--common-gap);
+	width: calc(100% - var(--common-gap));
 	max-width: 600px;
+	min-height: 100vh;
 }
 
 p,

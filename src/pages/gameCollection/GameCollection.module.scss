@@ -1,9 +1,47 @@
 .container {
-    margin: var(--common-gap);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: inherit;
+
+    select {
+        margin: var(--common-gap);
+        height: var(--filter-height);
+        background-color: var(--color-secondary);
+        border: 3px solid var(--color-surface);
+        font-family: var(--font-theme);
+        font-style: italic;
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        padding-left: 0.7rem;
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+            outline: 2px solid var(--color-secondary);
+        }
+    }
 }
 
 .collection {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: inherit;
+    margin: var(--common-gap);
     gap: var(--common-gap);
+}
+
+.emptyCollectionContainer {
+    a {
+        color: var(--color-primary);
+        font-weight: 600;
+
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+        }
+    }
 }
