@@ -1,4 +1,4 @@
-// import Styles from "./EditGame.module.scss"
+import Styles from "./EditGame.module.scss"
 import { useParams } from "react-router"
 import BackToCollectionButton from "../../components/backToCollectionButton/BackToCollectionButton"
 import EditCreateForm from "../../components/editCreateForm/EditCreateForm"
@@ -33,9 +33,9 @@ function EditGame() {
     }
 
     return (
-        <>
-            <h2>Edit</h2>
+        <div className={Styles.container}>
             <BackToCollectionButton/>
+            <h2>Edit</h2>
             {errorMessage && <p>{errorMessage}</p>}
             {isLoading ? (
                 <Loading/>
@@ -60,7 +60,7 @@ function EditGame() {
                     )}
                 </>
             )}
-        </>
+        </div>
     )
 }
 

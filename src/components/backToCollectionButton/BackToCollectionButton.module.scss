@@ -1,5 +1,12 @@
 .backButton {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
+    text-decoration: underline;
+    font-weight: 600;
+
+    &::before {
+        content: "<- ";
+    }
+
+    &:hover {
+        color: var(--color-primary);
+    }
 }

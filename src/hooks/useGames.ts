@@ -122,7 +122,7 @@ function useGames({
     return {
         isLoading, errorMessage, disabledSubmitButton, // Limbos
         gameCollection, draft, gameStatusFilter, // Data
-        handleSetDraft, setGameStatusFilter,
+        handleSetDraft, setGameStatusFilter, setErrorMessage,
         handlePerformCrudOperation
     }
 }

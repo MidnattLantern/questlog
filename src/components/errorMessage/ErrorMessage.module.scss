@@ -1,0 +1,42 @@
+.container {
+    position: fixed;
+    top: var(--common-gap);
+    left: var(--common-gap);
+    right: var(--common-gap);
+    height: var(--error-message-height);
+    background-color: var(--color-surface-transparent);
+    backdrop-filter: blur(10px);
+    color: var(--color-alert);
+    border: 2px solid var(--color-alert);
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: var(--common-gap);
+    box-shadow: 0 0 15px var(--color-surface);
+
+    button {
+        box-sizing: border-box;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 40px;
+        height: 40px;
+        padding: 10px;
+        border-radius: var(--pillify);
+        background-color: var(--color-surface);
+        border: none;
+
+        .dismissIcon {
+            fill: var(--color-alert);
+        }
+
+        &:hover,
+        &:focus {
+            background-color: var(--color-alert);
+            cursor: pointer;
+
+            .dismissIcon {
+                fill: var(--color-surface);
+            }
+        }
+    }
+}

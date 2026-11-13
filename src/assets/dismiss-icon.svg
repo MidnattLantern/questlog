@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1313 1313" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:affinity="https://www.affinity.studio/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-581.118998,-1094.898525)">
+        <path id="dismiss-icon-body" d="M1060.814,1751.37L617.706,1308.262C568.923,1259.48 568.923,1180.269 617.706,1131.486C666.489,1082.703 745.7,1082.703 794.483,1131.486L1237.591,1574.593L1680.698,1131.486C1729.481,1082.703 1808.692,1082.703 1857.475,1131.486C1906.258,1180.269 1906.258,1259.48 1857.475,1308.262L1414.367,1751.37L1857.475,2194.478C1906.258,2243.261 1906.258,2322.472 1857.475,2371.254C1808.692,2420.037 1729.481,2420.037 1680.698,2371.254L1237.591,1928.147L794.483,2371.254C745.7,2420.037 666.489,2420.037 617.706,2371.254C568.923,2322.472 568.923,2243.261 617.706,2194.478L1060.814,1751.37Z"/>
+    </g>
+</svg>

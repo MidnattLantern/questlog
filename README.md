@@ -187,6 +187,9 @@ The useGames custom props is intended to handle any CRUD operation through one c
 ### Convoluted patch and delete submit buttons
 EditGame.tsx has two submit buttons: patch and delete. During a CRUD request, both buttons are disabled, but depending on what action you perform, you'd want one button to change its text content, i.e "Saving…". However, without care, you'd see the patch button saying "Saving…" while performing a deletion, and the delete button saying "Deleting…" while performing a patch. This component has a solution to this, however its logic may be hard to read and follow.
 
+### WET dismiss error handlers
+Simply rendering error message and setting error message to null directly in ErrorMessage.tsx turns out to be more complicated than you'd expect. The current code require each component that utulize ErrorMessage to carry its own message setter and dismiss handler. This could be improved upon by spending time figuring out how to carry all of that responsibility in ErrorMessage.tsx
+
 ## Future features
 Ideas how this project could potentially be improved
 

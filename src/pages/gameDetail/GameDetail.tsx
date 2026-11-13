@@ -15,9 +15,9 @@ function GameDetail() {
 
     return (
         <div className={Styles.container}>
+            <BackToCollectionButton/>
             <h2>Details</h2>
             <div className={Styles.content}>
-                <BackToCollectionButton/>
                 {errorMessage && <p>{errorMessage}</p>}
                 {isLoading ? (
                     <Loading/>
