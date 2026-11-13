@@ -55,12 +55,12 @@ function EditGame() {
                     />
                     {confirmDelete ? (
                         <>
-                            <p>Deleting "{draft.title}" cannot be undone, are you sure?</p>
-                            <button onClick={() => {setConfirmDelete(false)}}>No, cancel</button>
-                            <button onClick={handleDelete} disabled={disabledSubmitButton}>Yes, delete {draft.title}</button>
+                            <p className={Styles.confirmAlertText}>Deleting "{draft.title}" cannot be undone, are you sure?</p>
+                            <button onClick={() => {setConfirmDelete(false)}} className={Styles.cancelDeleteButton}>No, cancel</button>
+                            <button onClick={handleDelete} disabled={disabledSubmitButton} className={Styles.deleteButton}>Yes, delete {draft.title}</button>
                         </>
                     ) : (
-                        <button onClick={() => {setConfirmDelete(true)}} disabled={disabledSubmitButton}>{submitDeleteAction ? 'Deleting…' : 'Delete'}</button>
+                        <button onClick={() => {setConfirmDelete(true)}} disabled={disabledSubmitButton} className={Styles.deleteButton}>{submitDeleteAction ? 'Deleting…' : 'Delete'}</button>
                     )}
                 </>
             )}
