@@ -45,3 +45,16 @@
         }
     }
 }
+
+@media screen and (min-width: 1256px) { // show two cards a row
+    .collection {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (min-width: 1536px) { // show two cards a row
+    .collection {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}

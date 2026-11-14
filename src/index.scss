@@ -116,9 +116,10 @@ footer {
 	}
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1256px) {
 	main {
-		max-width: 1000px;
+		width: calc(100% - (var(--sidebar-width) * 2));
+		max-width: 1536px;
 		margin-left: calc(var(--sidebar-width) + var(--common-gap));
 		margin-right: calc(var(--sidebar-width) + var(--common-gap));
 	}

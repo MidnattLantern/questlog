@@ -58,10 +58,6 @@ function useGames({
                 body: (method === 'DELETE') ? null : JSON.stringify(draft) // shouldn't pass body if method don't use it
             })
             const data = await response.json()
-            const status = response.status
-
-            console.log('handlePerformCrudOperation data', data)
-            console.log('handlePerformCrudOperation status', status)
 
             if (!response.ok) {
                 setErrorMessage(data.message)
@@ -71,18 +67,16 @@ function useGames({
             if (method === 'POST') navigate(`/detail/${data.id}`)
             if (method === 'PATCH') navigate(`/detail/${id}`)
             if (method === 'DELETE') navigate('/')
-        } catch (error) {
-            console.log(`Failed to perform CRUD operation "${method}" - ${error}`)
+        } catch {
+            return
         } finally {
             setDisabledSubmitButton(false)
         }
     }
 
     useEffect(() => {
-        console.log('useGames useEffect fired')
 
         if (fetchData) {
-            console.log('useGames fetching data')
             localStorage.setItem('gameStatusFilter', JSON.stringify(gameStatusFilter))
 
             async function handleFetchCollection() { // useEffect won't allow using handlePerformCrudOperation without extra setup
@@ -95,9 +89,6 @@ function useGames({
                     const data = await response.json()
                     const status = response.status
 
-                    console.log('handleFetchCollection data:', data)
-                    console.log('handleFetchCollection status:', status)
-
                     if (!response.ok) {
                         setErrorMessage(`Failed to fetch collection - server side error code: ${status}`)
                         if (id && status === 404) navigate('*') // without this redirection, user can see detail and edit elements for non existing games
@@ -106,8 +97,7 @@ function useGames({
 
                     if (id) setDraft(data) // if id is passed, that means the hook should handle a single game
                     else setGameCollection(data)
-                } catch (error) {
-                    console.error('error:', error)
+                } catch {
                     return
                 } finally {
                     setIsLoading(false)
